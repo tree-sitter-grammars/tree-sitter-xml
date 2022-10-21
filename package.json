@@ -1,0 +1,38 @@
+{
+  "name": "tree-sitter-chatito",
+  "version": "0.1.0",
+  "license": "MIT",
+  "description": "Chatito grammar for tree-sitter",
+  "repository": "ObserverOfTime/tree-sitter-chatito",
+  "author": {
+    "name": "ObserverOfTime",
+    "email": "chronobserver@disroot.org",
+    "url": "https://observeroftime.github.io/"
+  },
+  "keywords": [
+    "tree-sitter",
+    "parser",
+    "lexer"
+  ],
+  "scripts": {
+    "generate": "tree-sitter generate",
+    "highlight": "tree-sitter highlight",
+    "parse": "tree-sitter parse",
+    "test": "tree-sitter test"
+  },
+  "main": "bindings/node",
+  "dependencies": {
+    "nan": "^2.16.0"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.20.7"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.chatito",
+      "file-types": [
+        "chatito"
+      ]
+    }
+  ]
+}
