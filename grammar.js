@@ -26,6 +26,8 @@ module.exports = grammar({
 
   extras: _ => [],
 
+  supertypes: $ => [$._definition],
+
   rules: {
     source: $ => repeat(choice(
       $._definition,

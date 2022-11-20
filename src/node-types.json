@@ -1,5 +1,23 @@
 [
   {
+    "type": "_definition",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "alias_def",
+        "named": true
+      },
+      {
+        "type": "intent_def",
+        "named": true
+      },
+      {
+        "type": "slot_def",
+        "named": true
+      }
+    ]
+  },
+  {
     "type": "alias_body",
     "named": true,
     "fields": {},
@@ -264,7 +282,7 @@
       "required": false,
       "types": [
         {
-          "type": "alias_def",
+          "type": "_definition",
           "named": true
         },
         {
@@ -273,14 +291,6 @@
         },
         {
           "type": "import",
-          "named": true
-        },
-        {
-          "type": "intent_def",
-          "named": true
-        },
-        {
-          "type": "slot_def",
           "named": true
         }
       ]
