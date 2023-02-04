@@ -318,6 +318,11 @@
     "fields": {}
   },
   {
+    "type": "word",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "\"",
     "named": false
   },
@@ -395,10 +400,6 @@
   },
   {
     "type": "slot",
-    "named": true
-  },
-  {
-    "type": "word",
     "named": true
   },
   {

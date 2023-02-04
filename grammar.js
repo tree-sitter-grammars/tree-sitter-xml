@@ -6,8 +6,9 @@
  */
 
 /**
- * @param {any} $
+ * @param {GrammarSymbols<'escape'>} $
  * @param {string} quote
+ * @returns SeqRule
  */
 const __string = ($, quote) => seq(
   quote,
@@ -19,7 +20,7 @@ const __string = ($, quote) => seq(
     ))
   ),
   quote
-)
+);
 
 module.exports = grammar({
   name: 'chatito',
@@ -132,7 +133,7 @@ module.exports = grammar({
       ']',
     ),
 
-    word: _ => token(prec(-1, /\S+/)),
+    word: _ => prec(-1, repeat1(/\S/)),
 
     variation: _ => seq(
       '#', field('id', /[^\]#?]+/)
