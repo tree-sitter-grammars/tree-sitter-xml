@@ -298,20 +298,12 @@
               "type": "CHOICE",
               "members": [
                 {
-                  "type": "PREC",
-                  "value": 1,
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "slot_ref"
-                  }
+                  "type": "SYMBOL",
+                  "name": "slot_ref"
                 },
                 {
-                  "type": "PREC",
-                  "value": 1,
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "alias_ref"
-                  }
+                  "type": "SYMBOL",
+                  "name": "alias_ref"
                 },
                 {
                   "type": "SYMBOL",
@@ -358,12 +350,8 @@
               "type": "CHOICE",
               "members": [
                 {
-                  "type": "PREC",
-                  "value": 1,
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "alias_ref"
-                  }
+                  "type": "SYMBOL",
+                  "name": "alias_ref"
                 },
                 {
                   "type": "SYMBOL",
@@ -398,20 +386,12 @@
               "type": "CHOICE",
               "members": [
                 {
-                  "type": "PREC",
-                  "value": 1,
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "slot_ref"
-                  }
+                  "type": "SYMBOL",
+                  "name": "slot_ref"
                 },
                 {
-                  "type": "PREC",
-                  "value": 1,
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "alias_ref"
-                  }
+                  "type": "SYMBOL",
+                  "name": "alias_ref"
                 },
                 {
                   "type": "SYMBOL",
@@ -512,7 +492,7 @@
       ]
     },
     "word": {
-      "type": "PREC",
+      "type": "PREC_LEFT",
       "value": -1,
       "content": {
         "type": "REPEAT1",

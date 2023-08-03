@@ -7,7 +7,7 @@
 
 /**
  * @param {GrammarSymbols<'escape'>} $
- * @param {string} quote
+ * @param {'"' | "'"} quote
  * @returns SeqRule
  */
 const __string = ($, quote) => seq(
@@ -88,8 +88,8 @@ module.exports = grammar({
       $._indent,
       optional($.probability),
       repeat1(choice(
-        prec(1, $.slot_ref),
-        prec(1, $.alias_ref),
+        $.slot_ref,
+        $.alias_ref,
         $._space,
         $.word
       )),
@@ -100,7 +100,7 @@ module.exports = grammar({
       $._indent,
       optional($.probability),
       repeat1(choice(
-        prec(1, $.alias_ref),
+        $.alias_ref,
         $._space,
         $.word
       )),
@@ -110,8 +110,8 @@ module.exports = grammar({
     alias_body: $ => repeat1(seq(
       $._indent,
       repeat1(choice(
-        prec(1, $.slot_ref),
-        prec(1, $.alias_ref),
+        $.slot_ref,
+        $.alias_ref,
         $._space,
         $.word
       )),
@@ -133,7 +133,7 @@ module.exports = grammar({
       ']',
     ),
 
-    word: _ => prec(-1, repeat1(/\S/)),
+    word: _ => prec.left(-1, repeat1(/\S/)),
 
     variation: _ => seq(
       '#', field('id', /[^\]#?]+/)

@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-chatito",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "MIT",
   "description": "Chatito grammar for tree-sitter",
   "repository": "ObserverOfTime/tree-sitter-chatito",
@@ -22,10 +22,10 @@
   },
   "main": "bindings/node",
   "dependencies": {
-    "nan": "^2.16.0"
+    "nan": "^2.17.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.20.7"
+    "tree-sitter-cli": "^0.20.8"
   },
   "tree-sitter": [
     {
