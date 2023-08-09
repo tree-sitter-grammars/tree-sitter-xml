@@ -25,6 +25,19 @@ bool tree_sitter_xml_external_scanner_scan(void *payload, TSLexer *lexer,
         return false;
     }
 
+    bool next_tok_is_bracket = lexer->lookahead == '<';
+
+    // CharData and Comment can be valid at the same time
+    if (valid_symbols[Comment]) {
+        bool res = scan_comment(lexer);
+        if (!valid_symbols[CharData]) {
+            return res;
+        }
+        if (res) {
+            return true;
+        }
+    }
+
     if (valid_symbols[PITarget]) {
         return scan_pi_target(lexer);
     }
@@ -33,7 +46,7 @@ bool tree_sitter_xml_external_scanner_scan(void *payload, TSLexer *lexer,
         return scan_pi_content(lexer);
     }
 
-    if (valid_symbols[CharData]) {
+    if (valid_symbols[CharData] && !next_tok_is_bracket) {
         return scan_char_data(lexer);
     }
 

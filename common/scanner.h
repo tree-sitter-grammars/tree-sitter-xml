@@ -4,16 +4,18 @@
 enum TokenType {
     PITarget,
     PIContent,
+    Comment,
     CharData,
 };
 
 static bool in_dtd_error_recovery(const bool *valid_symbols) {
-    return valid_symbols[PITarget] && valid_symbols[PIContent];
+    return valid_symbols[PITarget] && valid_symbols[PIContent] &&
+           valid_symbols[Comment];
 }
 
 static bool in_xml_error_recovery(const bool *valid_symbols) {
     return valid_symbols[PITarget] && valid_symbols[PIContent] &&
-           valid_symbols[CharData];
+           valid_symbols[Comment] && valid_symbols[CharData];
 }
 
 static void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
@@ -87,6 +89,49 @@ static bool scan_pi_content(TSLexer *lexer) {
     if (advanced_once) {
         lexer->mark_end(lexer);
         lexer->result_symbol = PIContent;
+        return true;
+    }
+
+    return false;
+}
+
+static bool scan_comment(TSLexer *lexer) {
+    if (lexer->lookahead != '<') {
+        return false;
+    }
+    advance(lexer);
+
+    if (lexer->lookahead != '!') {
+        return false;
+    }
+    advance(lexer);
+
+    if (lexer->lookahead != '-') {
+        return false;
+    }
+    advance(lexer);
+
+    if (lexer->lookahead != '-') {
+        return false;
+    }
+    advance(lexer);
+
+    while (!lexer->eof(lexer)) {
+        if (lexer->lookahead == '-') {
+            advance(lexer);
+            if (lexer->lookahead == '-') {
+                advance(lexer);
+                break;
+            }
+        } else {
+            advance(lexer);
+        }
+    }
+
+    if (lexer->lookahead == '>') {
+        advance(lexer);
+        lexer->mark_end(lexer);
+        lexer->result_symbol = Comment;
         return true;
     }
 

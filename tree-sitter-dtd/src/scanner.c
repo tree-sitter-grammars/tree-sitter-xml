@@ -25,6 +25,11 @@ bool tree_sitter_dtd_external_scanner_scan(void *payload, TSLexer *lexer,
         return false;
     }
 
+    if (valid_symbols[Comment]) {
+        bool scanned_bracket = false;
+        return scan_comment(lexer);
+    }
+
     if (valid_symbols[PITarget]) {
         return scan_pi_target(lexer);
     }

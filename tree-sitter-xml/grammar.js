@@ -16,11 +16,9 @@ const O = optional;
 module.exports = grammar(DTD, {
   name: 'xml',
 
-  externals: $ => [
-    $.PITarget,
-    $._pi_content,
-    $.CharData,
-  ],
+  externals: ($, original) => original.concat([
+    $.CharData
+  ]),
 
   inline: $ => [
     $._extSubsetDecl,

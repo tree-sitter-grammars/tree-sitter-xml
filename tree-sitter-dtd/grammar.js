@@ -15,11 +15,10 @@ module.exports = grammar({
   externals: $ => [
     $.PITarget,
     $._pi_content,
+    $.Comment,
   ],
 
   extras: _ => [],
-
-  word: $ => $.Name,
 
   supertypes: $ => [
     $._markupdecl,
@@ -28,6 +27,9 @@ module.exports = grammar({
     $._EntityDecl,
     $._Reference
   ],
+
+  word: $ => $.Name,
+
   rules: {
     // AKA: extSubset
     document: $ => seq(
@@ -339,10 +341,6 @@ module.exports = grammar({
       $.PITarget,
       O(seq($._S, $._pi_content)),
       '?>'
-    ),
-
-    Comment: _ => token(
-      seq('<!--', choice('-', /(([^-])|(-[^-])|[\r\n])*/), '-->')
     ),
 
     _Eq: $ => seq(O($._S), '=', O($._S))
