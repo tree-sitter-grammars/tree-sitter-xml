@@ -2,9 +2,6 @@
  * @file Tree-sitter grammar definition for XML
  * @author ObserverOfTime
  * @license MIT
- * @see {@link https://www.w3.org/TR/xml/|XML standard}
- * @see {@link https://www.w3.org/TR/xml-model/|XML model}
- * @see {@link https://www.w3.org/TR/xml-stylesheet/|XML stylesheet}
  */
 // @ts-nocheck
 

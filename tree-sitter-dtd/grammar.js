@@ -2,7 +2,6 @@
  * @file Tree-sitter grammar definition for DTD
  * @author ObserverOfTime
  * @license MIT
- * @see {@link https://www.w3.org/TR/xml/|XML standard}
  */
 
 const c = require('../common');
