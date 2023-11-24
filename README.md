@@ -13,7 +13,7 @@ A tree-sitter parser for XML & DTD files.
 ## Editors
 
 - [x] Neovim
-- [ ] Helix _(has alternative)_
+- [ ] Helix _(has alternatives)_
 - [x] Emacs
 
 [badge]: https://badgen.net/github/checks/ObserverOfTime/tree-sitter-xml?label=CI&icon=github

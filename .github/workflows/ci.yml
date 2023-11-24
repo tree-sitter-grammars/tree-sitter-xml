@@ -10,12 +10,12 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         name: Checkout repository
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         name: Set up NodeJS
         with:
-          node-version: 16
+          node-version: 18
       - run: npm install
         name: Install dependencies
       - run: npm test
