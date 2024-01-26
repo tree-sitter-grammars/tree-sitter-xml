@@ -28,13 +28,11 @@ Invalid comment
     (CharData)))
 
 ================================================================================
-Invalid processing instructions
+Invalid XML declaration
 ================================================================================
 
 <?xml is invalid?>
-<error>
-<?bar is ?> invalid?>
-</error>
+<error/>
 
 --------------------------------------------------------------------------------
 
@@ -42,6 +40,21 @@ Invalid processing instructions
   (ERROR
     (Name)
     (Name))
+  (element
+    (EmptyElemTag
+      (Name))))
+
+================================================================================
+Invalid processing instruction
+================================================================================
+
+<error>
+<?bar is ?> invalid?>
+</error>
+
+--------------------------------------------------------------------------------
+
+(document
   (element
     (STag
       (Name))
@@ -55,17 +68,34 @@ Invalid processing instructions
       (Name))))
 
 ================================================================================
-Invalid character data
+Invalid character data (raw)
 ================================================================================
 
-<error>
 <raw>
 This is not valid: ]]>
 </raw>
+
+--------------------------------------------------------------------------------
+
+(document
+  (element
+    (STag
+      (Name))
+    (ERROR
+      (Name)
+      (Name)
+      (Name)
+      (Name))
+    (ETag
+      (Name))))
+
+================================================================================
+Invalid character data (CDATA)
+================================================================================
+
 <cdata>
 <![CDATA[ ]]> is invalid ]]>
 </cdata>
-</error>
 
 --------------------------------------------------------------------------------
 
@@ -75,30 +105,11 @@ This is not valid: ]]>
       (Name))
     (content
       (CharData)
-      (element
-        (STag
-          (Name))
-        (ERROR
-          (Name)
-          (Name)
-          (Name)
-          (Name))
-        (ETag
-          (Name)))
-      (CharData)
-      (element
-        (STag
-          (Name))
-        (content
-          (CharData)
-          (CDSect
-            (CDStart)
-            (CData)))
-        (ERROR
-          (Name)
-          (Name))
-        (ETag
-          (Name)))
-      (CharData))
+      (CDSect
+        (CDStart)
+        (CData)))
+    (ERROR
+      (Name)
+      (Name))
     (ETag
       (Name))))

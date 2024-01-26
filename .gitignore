@@ -6,3 +6,4 @@ Cargo.lock
 build/
 target/
 *.wasm
+*.o

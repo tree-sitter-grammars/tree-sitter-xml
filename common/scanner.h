@@ -1,6 +1,5 @@
 #pragma once
 
-#include <ctype.h>
 #include <tree_sitter/parser.h>
 
 enum TokenType {
@@ -12,6 +11,17 @@ enum TokenType {
     XML_MODEL,
     XML_STYLESHEET,
 };
+
+// BUG: see cursorless-dev/vscode-parse-tree#74
+
+/// Check if the character is a letter
+#define isalpha(chr) \
+    (((chr) >= 'A' && (chr) <= 'Z') || \
+    ((chr) >= 'a' && (chr) <= 'z'))
+
+/// Check if the character is alphanumeric
+#define isalnum(chr) \
+    (isalpha(chr) || ((chr) >= '0' && (chr) <= '9'))
 
 /// Advance the lexer if the next token doesn't match the given character
 #define advance_if_not(lexer, chr) \

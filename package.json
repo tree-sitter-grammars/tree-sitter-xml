@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-xml",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "license": "MIT",
   "description": "XML & DTD grammars for tree-sitter",
   "repository": "ObserverOfTime/tree-sitter-xml",
