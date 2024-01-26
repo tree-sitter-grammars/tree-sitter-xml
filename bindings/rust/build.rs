@@ -7,6 +7,7 @@ fn main() {
     let mut config = cc::Build::new();
     config.include(&xml_dir);
     config
+        .flag_if_supported("-Wno-misleading-indentation")
         .flag_if_supported("-Wno-unused-parameter")
         .flag_if_supported("-Wno-unused-but-set-variable");
 
