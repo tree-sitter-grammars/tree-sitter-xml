@@ -65,3 +65,23 @@ pub const XML_NODE_TYPES: &str = include_str!("../../tree-sitter-xml/src/node-ty
 ///
 /// [`node-types.json`]: https://tree-sitter.github.io/tree-sitter/using-parsers#static-node-types
 pub const DTD_NODE_TYPES: &str = include_str!("../../tree-sitter-dtd/src/node-types.json");
+
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn test_can_load_xml_grammar() {
+        let mut parser = tree_sitter::Parser::new();
+        parser
+            .set_language(super::language_xml())
+            .expect("Error loading xml language");
+    }
+
+    #[test]
+    fn test_can_load_dtd_grammar() {
+        let mut parser = tree_sitter::Parser::new();
+        parser
+            .set_language(super::language_dtd())
+            .expect("Error loading dtd language");
+    }
+}
