@@ -16,7 +16,7 @@ jobs:
       - uses: actions/setup-node@v4
         name: Set up NodeJS
         with:
-          node-version: 20
+          node-version: 18
       - name: Install dependencies
         run: npm install
       - name: Run tests
