@@ -1,9 +1,9 @@
 {
-  "name": "tree-sitter-xml",
-  "version": "0.2.1",
+  "name": "@chronobserver/tree-sitter-xml",
+  "version": "0.3.0",
   "license": "MIT",
   "description": "XML & DTD grammars for tree-sitter",
-  "repository": "ObserverOfTime/tree-sitter-xml",
+  "repository": "tree-sitter-grammars/tree-sitter-xml",
   "author": {
     "name": "ObserverOfTime",
     "email": "chronobserver@disroot.org",
@@ -16,12 +16,12 @@
     "xml",
     "dtd"
   ],
-  "main": "./bindings/node",
+  "main": "bindings/node",
   "dependencies": {
     "nan": "^2.18.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.20.8"
+    "tree-sitter-cli": "~0.20.8"
   },
   "scripts": {
     "build": "npm run build-dtd && npm run build-xml",
@@ -34,6 +34,9 @@
     "test-xml": "cd tree-sitter-xml && tree-sitter test",
     "playground-xml": "cd tree-sitter-xml && tree-sitter build-wasm && tree-sitter playground",
     "playground-dtd": "cd tree-sitter-dtd && tree-sitter build-wasm && tree-sitter playground"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "tree-sitter": [
     {

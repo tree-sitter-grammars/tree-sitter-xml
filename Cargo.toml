@@ -1,16 +1,17 @@
 [package]
 name = "tree-sitter-xml"
 description = "XML grammar for tree-sitter"
-version = "0.2.1"
+version = "0.3.0"
 license = "MIT"
 readme = "README.md"
 keywords = ["incremental", "parsing", "dtd", "xml"]
 categories = ["parsing", "text-editors"]
-repository = "https://github.com/ObserverOfTime/tree-sitter-xml"
+repository = "https://github.com/tree-sitter-grammars/tree-sitter-xml"
 edition = "2021"
 
 build = "bindings/rust/build.rs"
 include = [
+  "common/*",
   "bindings/rust/*",
   "tree-sitter-dtd/grammar.js",
   "tree-sitter-dtd/src/*",
