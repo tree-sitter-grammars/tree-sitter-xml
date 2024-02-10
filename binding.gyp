@@ -4,20 +4,19 @@
       "target_name": "tree_sitter_xml_binding",
       "include_dirs": [
         "<!(node -e \"require('nan')\")",
-        "tree-sitter-dtd/src",
-        "tree-sitter-xml/src",
+        "xml/src",
       ],
       "sources": [
-        "tree-sitter-dtd/src/parser.c",
-        "tree-sitter-dtd/src/scanner.c",
-        "tree-sitter-xml/src/parser.c",
-        "tree-sitter-xml/src/scanner.c",
+        "dtd/src/parser.c",
+        "dtd/src/scanner.c",
+        "xml/src/parser.c",
+        "xml/src/scanner.c",
         "bindings/node/binding.cc",
       ],
       "cflags_c": [
         "-std=c99",
         "-Wno-misleading-indentation",
-        "-Wno-unused-but-set-variable",
+        "-Wno-unused-parameter",
       ],
       "cflags_cc": [
         "-Wno-cast-function-type",

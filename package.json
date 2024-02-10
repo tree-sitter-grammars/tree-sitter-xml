@@ -1,6 +1,6 @@
 {
   "name": "@chronobserver/tree-sitter-xml",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "license": "MIT",
   "description": "XML & DTD grammars for tree-sitter",
   "repository": "tree-sitter-grammars/tree-sitter-xml",
@@ -25,15 +25,15 @@
   },
   "scripts": {
     "build": "npm run build-dtd && npm run build-xml",
-    "build-dtd": "cd tree-sitter-dtd && tree-sitter generate --no-bindings",
-    "build-xml": "cd tree-sitter-xml && tree-sitter generate --no-bindings",
+    "build-dtd": "cd dtd && tree-sitter generate --no-bindings",
+    "build-xml": "cd xml && tree-sitter generate --no-bindings",
     "parse": "tree-sitter parse",
-    "test-load": "node -e \"console.log(require('./tree-sitter-dtd').name, require('./tree-sitter-xml').name)\"",
+    "test-load": "node -e \"console.log(require('./dtd').name, require('./xml').name)\"",
     "test": "npm run test-dtd && npm run test-xml && npm run test-load",
-    "test-dtd": "cd tree-sitter-dtd && tree-sitter test",
-    "test-xml": "cd tree-sitter-xml && tree-sitter test",
-    "playground-xml": "cd tree-sitter-xml && tree-sitter build-wasm && tree-sitter playground",
-    "playground-dtd": "cd tree-sitter-dtd && tree-sitter build-wasm && tree-sitter playground"
+    "test-dtd": "cd dtd && tree-sitter test",
+    "test-xml": "cd xml && tree-sitter test",
+    "playground-xml": "cd xml && tree-sitter build-wasm && tree-sitter playground",
+    "playground-dtd": "cd dtd && tree-sitter build-wasm && tree-sitter playground"
   },
   "publishConfig": {
     "access": "public"
@@ -48,8 +48,8 @@
         "xslt"
       ],
       "injection-regex": "^(xml|svg|xsd|xslt)$",
-      "highlights": "tree-sitter-xml/queries/highlights.scm",
-      "path": "tree-sitter-xml"
+      "highlights": "xml/queries/highlights.scm",
+      "path": "xml"
     },
     {
       "scope": "source.dtd",
@@ -57,8 +57,8 @@
         "dtd"
       ],
       "injection-regex": "^dtd$",
-      "highlights": "tree-sitter-dtd/queries/highlights.scm",
-      "path": "tree-sitter-dtd"
+      "highlights": "dtd/queries/highlights.scm",
+      "path": "dtd"
     }
   ]
 }

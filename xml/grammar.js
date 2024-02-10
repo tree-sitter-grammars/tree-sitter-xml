@@ -3,23 +3,27 @@
  * @author ObserverOfTime
  * @license MIT
  */
-// @ts-nocheck
 
 const c = require('../common');
 
-const DTD = require('../tree-sitter-dtd/grammar');
+const DTD = require('../dtd/grammar');
 
 const O = optional;
 
 module.exports = grammar(DTD, {
   name: 'xml',
 
-  externals: ($, previous) => previous.concat([
+  externals: $ => [
+    // DTD
+    $.PITarget,
+    $._pi_content,
+    $.Comment,
+    // XML
     $.CharData,
     $.CData,
     'xml-model',
     'xml-stylesheet',
-  ]),
+  ],
 
   inline: $ => [
     $._extSubsetDecl,

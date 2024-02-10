@@ -1,15 +1,14 @@
 fn main() {
     let root_dir = std::path::Path::new(".");
-    let xml_dir = root_dir.join("tree-sitter-xml").join("src");
-    let dtd_dir = root_dir.join("tree-sitter-dtd").join("src");
+    let xml_dir = root_dir.join("xml").join("src");
+    let dtd_dir = root_dir.join("dtd").join("src");
     let common_dir = root_dir.join("common");
 
     let mut config = cc::Build::new();
     config.include(&xml_dir);
     config
         .flag_if_supported("-Wno-misleading-indentation")
-        .flag_if_supported("-Wno-unused-parameter")
-        .flag_if_supported("-Wno-unused-but-set-variable");
+        .flag_if_supported("-Wno-unused-parameter");
 
     for path in &[
         xml_dir.join("parser.c"),

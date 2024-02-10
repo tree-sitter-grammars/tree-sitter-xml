@@ -51,20 +51,20 @@ pub fn language_xml() -> Language {
 }
 
 /// The syntax highlighting queries for XML.
-pub const XML_HIGHLIGHT_QUERY: &str = include_str!("../../tree-sitter-xml/queries/highlights.scm");
+pub const XML_HIGHLIGHT_QUERY: &str = include_str!("../../xml/queries/highlights.scm");
 
 /// The syntax highlighting queries for DTD.
-pub const DTD_HIGHLIGHT_QUERY: &str = include_str!("../../tree-sitter-dtd/queries/highlights.scm");
+pub const DTD_HIGHLIGHT_QUERY: &str = include_str!("../../dtd/queries/highlights.scm");
 
 /// The content of the [`node-types.json`][] file for XML.
 ///
 /// [`node-types.json`]: https://tree-sitter.github.io/tree-sitter/using-parsers#static-node-types
-pub const XML_NODE_TYPES: &str = include_str!("../../tree-sitter-xml/src/node-types.json");
+pub const XML_NODE_TYPES: &str = include_str!("../../xml/src/node-types.json");
 
 /// The content of the [`node-types.json`][] file for DTD.
 ///
 /// [`node-types.json`]: https://tree-sitter.github.io/tree-sitter/using-parsers#static-node-types
-pub const DTD_NODE_TYPES: &str = include_str!("../../tree-sitter-dtd/src/node-types.json");
+pub const DTD_NODE_TYPES: &str = include_str!("../../dtd/src/node-types.json");
 
 
 #[cfg(test)]

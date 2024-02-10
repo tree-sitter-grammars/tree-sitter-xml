@@ -1,4 +1,4 @@
-#include <tree_sitter/parser.h>
+#include "tree_sitter/parser.h"
 
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic push
@@ -16,7 +16,7 @@
 #define MAX_ALIAS_SEQUENCE_LENGTH 12
 #define PRODUCTION_ID_COUNT 5
 
-enum {
+enum ts_symbol_identifiers {
   sym_Name = 1,
   anon_sym_LT_BANG_LBRACK = 2,
   anon_sym_IGNORE = 3,
@@ -1012,7 +1012,7 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
   },
 };
 
-enum {
+enum ts_field_identifiers {
   field_content = 1,
   field_root = 2,
 };
@@ -3430,59 +3430,6 @@ static const TSLexMode ts_lex_modes[STATE_COUNT] = {
   [450] = {.lex_state = 1},
   [451] = {.lex_state = 1},
   [452] = {.lex_state = 39},
-};
-
-enum {
-  ts_external_token_PITarget = 0,
-  ts_external_token__pi_content = 1,
-  ts_external_token_Comment = 2,
-  ts_external_token_CharData = 3,
-  ts_external_token_CData = 4,
-  ts_external_token_xml_DASHmodel = 5,
-  ts_external_token_xml_DASHstylesheet = 6,
-};
-
-static const TSSymbol ts_external_scanner_symbol_map[EXTERNAL_TOKEN_COUNT] = {
-  [ts_external_token_PITarget] = sym_PITarget,
-  [ts_external_token__pi_content] = sym__pi_content,
-  [ts_external_token_Comment] = sym_Comment,
-  [ts_external_token_CharData] = sym_CharData,
-  [ts_external_token_CData] = sym_CData,
-  [ts_external_token_xml_DASHmodel] = anon_sym_xml_DASHmodel,
-  [ts_external_token_xml_DASHstylesheet] = anon_sym_xml_DASHstylesheet,
-};
-
-static const bool ts_external_scanner_states[8][EXTERNAL_TOKEN_COUNT] = {
-  [1] = {
-    [ts_external_token_PITarget] = true,
-    [ts_external_token__pi_content] = true,
-    [ts_external_token_Comment] = true,
-    [ts_external_token_CharData] = true,
-    [ts_external_token_CData] = true,
-    [ts_external_token_xml_DASHmodel] = true,
-    [ts_external_token_xml_DASHstylesheet] = true,
-  },
-  [2] = {
-    [ts_external_token_Comment] = true,
-  },
-  [3] = {
-    [ts_external_token_Comment] = true,
-    [ts_external_token_CharData] = true,
-  },
-  [4] = {
-    [ts_external_token_PITarget] = true,
-    [ts_external_token_xml_DASHmodel] = true,
-    [ts_external_token_xml_DASHstylesheet] = true,
-  },
-  [5] = {
-    [ts_external_token_CData] = true,
-  },
-  [6] = {
-    [ts_external_token__pi_content] = true,
-  },
-  [7] = {
-    [ts_external_token_PITarget] = true,
-  },
 };
 
 static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
@@ -7972,6 +7919,59 @@ static const TSParseActionEntry ts_parse_actions[] = {
   [1182] = {.entry = {.count = 1, .reusable = true}}, SHIFT(430),
   [1184] = {.entry = {.count = 1, .reusable = true}}, SHIFT(431),
   [1186] = {.entry = {.count = 1, .reusable = true}}, SHIFT(432),
+};
+
+enum ts_external_scanner_symbol_identifiers {
+  ts_external_token_PITarget = 0,
+  ts_external_token__pi_content = 1,
+  ts_external_token_Comment = 2,
+  ts_external_token_CharData = 3,
+  ts_external_token_CData = 4,
+  ts_external_token_xml_DASHmodel = 5,
+  ts_external_token_xml_DASHstylesheet = 6,
+};
+
+static const TSSymbol ts_external_scanner_symbol_map[EXTERNAL_TOKEN_COUNT] = {
+  [ts_external_token_PITarget] = sym_PITarget,
+  [ts_external_token__pi_content] = sym__pi_content,
+  [ts_external_token_Comment] = sym_Comment,
+  [ts_external_token_CharData] = sym_CharData,
+  [ts_external_token_CData] = sym_CData,
+  [ts_external_token_xml_DASHmodel] = anon_sym_xml_DASHmodel,
+  [ts_external_token_xml_DASHstylesheet] = anon_sym_xml_DASHstylesheet,
+};
+
+static const bool ts_external_scanner_states[8][EXTERNAL_TOKEN_COUNT] = {
+  [1] = {
+    [ts_external_token_PITarget] = true,
+    [ts_external_token__pi_content] = true,
+    [ts_external_token_Comment] = true,
+    [ts_external_token_CharData] = true,
+    [ts_external_token_CData] = true,
+    [ts_external_token_xml_DASHmodel] = true,
+    [ts_external_token_xml_DASHstylesheet] = true,
+  },
+  [2] = {
+    [ts_external_token_Comment] = true,
+  },
+  [3] = {
+    [ts_external_token_Comment] = true,
+    [ts_external_token_CharData] = true,
+  },
+  [4] = {
+    [ts_external_token_PITarget] = true,
+    [ts_external_token_xml_DASHmodel] = true,
+    [ts_external_token_xml_DASHstylesheet] = true,
+  },
+  [5] = {
+    [ts_external_token_CData] = true,
+  },
+  [6] = {
+    [ts_external_token__pi_content] = true,
+  },
+  [7] = {
+    [ts_external_token_PITarget] = true,
+  },
 };
 
 #ifdef __cplusplus

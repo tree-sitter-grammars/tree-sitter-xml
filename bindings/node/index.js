@@ -15,6 +15,6 @@ try {
 }
 
 try {
-  module.exports.xml.nodeTypeInfo = require('../../tree-sitter-xml/src/node-types.json');
-  module.exports.dtd.nodeTypeInfo = require('../../tree-sitter-dtd/src/node-types.json');
+  module.exports.xml.nodeTypeInfo = require('../../xml/src/node-types.json');
+  module.exports.dtd.nodeTypeInfo = require('../../dtd/src/node-types.json');
 } catch (_) { }
