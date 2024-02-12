@@ -1,7 +1,7 @@
 [package]
 name = "tree-sitter-xml"
 description = "XML grammar for tree-sitter"
-version = "0.5.0"
+version = "0.4.0"
 license = "MIT"
 readme = "README.md"
 keywords = ["incremental", "parsing", "dtd", "xml"]

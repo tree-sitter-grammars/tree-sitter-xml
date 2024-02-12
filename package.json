@@ -1,6 +1,6 @@
 {
   "name": "@chronobserver/tree-sitter-xml",
-  "version": "0.5.0",
+  "version": "0.4.0",
   "license": "MIT",
   "description": "XML & DTD grammars for tree-sitter",
   "repository": "tree-sitter-grammars/tree-sitter-xml",
