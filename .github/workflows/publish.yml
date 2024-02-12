@@ -2,43 +2,16 @@ name: Publish package
 
 on:
   push:
-    tags: ['*']
+    tags: ["*"]
 
 jobs:
-  node:
-    name: Publish Node package
-    runs-on: ubuntu-latest
-    environment:
-      name: npm
-      url: https://www.npmjs.com/package/@chronobserver/tree-sitter-xml
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Set up NodeJS
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          registry-url: https://registry.npmjs.org/
-      - name: Install packages
-        run: npm install
-      - name: Publish to NPM
-        run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-  rust:
-    name: Publish Rust package
-    runs-on: ubuntu-latest
-    environment:
-      name: crates
-      url: https://crates.io/crates/tree-sitter-xml
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Set up Rust
-        uses: actions-rust-lang/setup-rust-toolchain@v1
-        with:
-          toolchain: stable
-      - name: Publish to crates.io
-        run: cargo publish
-        env:
-          CARGO_REGISTRY_TOKEN: ${{secrets.CARGO_TOKEN}}
+  npm:
+    uses: tree-sitter-grammars/.github/.github/workflows/package-npm.yml@main
+    with:
+      package-name: "@chronobserver/tree-sitter-xml"
+    secrets:
+      NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+  crates:
+    uses: tree-sitter-grammars/.github/.github/workflows/package-crates.yml@main
+    secrets:
+      CARGO_REGISTRY_TOKEN: ${{secrets.CARGO_TOKEN}}

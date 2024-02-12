@@ -1,35 +1,39 @@
-name: Test grammars
+name: Test grammar
 
 on:
   push:
-    branches: [master]
+    branches: ["*"]
+    paths:
+      - scripts.js
+      - grammar.js
+      - common/*
+      - xml/src/**
+      - dtd/src/**
+      - bindings/**
+      - binding.gyp
   pull_request:
-    branches: [master]
+    branches: ["*"]
+    paths:
+      - scripts.js
+      - grammar.js
+      - common/*
+      - xml/src/**
+      - dtd/src/**
+      - bindings/**
+      - binding.gyp
 
 jobs:
-  node:
-    name: Test Node library
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        name: Checkout repository
-      - uses: actions/setup-node@v4
-        name: Set up NodeJS
-        with:
-          node-version: 18
-      - name: Install dependencies
-        run: npm install
-      - name: Run tests
-        run: npm test
-  rust:
-    name: Test Rust library
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Set up Rust
-        uses: actions-rust-lang/setup-rust-toolchain@v1
-        with:
-          toolchain: stable
-      - name: Run tests
-        run: cargo test
+  test:
+    uses: tree-sitter-grammars/.github/.github/workflows/ci.yml@main
+    with:
+      test-library: true
+  fuzz:
+    name: Fuzz ${{matrix.language}} parser
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [xml, dtd]
+    uses: tree-sitter-grammars/.github/.github/workflows/fuzz.yml@main
+    with:
+      language: ${{matrix.language}}
+      directory: ${{matrix.language}}
