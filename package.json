@@ -1,6 +1,6 @@
 {
   "name": "@chronobserver/tree-sitter-xml",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "license": "MIT",
   "description": "XML & DTD grammars for tree-sitter",
   "repository": "tree-sitter-grammars/tree-sitter-xml",
@@ -21,19 +21,19 @@
     "nan": "^2.18.0"
   },
   "devDependencies": {
+    "@types/node": "^20.11.17",
     "tree-sitter-cli": "~0.20.8"
   },
   "scripts": {
-    "build": "npm run build-dtd && npm run build-xml",
-    "build-dtd": "cd dtd && tree-sitter generate --no-bindings",
-    "build-xml": "cd xml && tree-sitter generate --no-bindings",
+    "build": "node -e \"require('./scripts').build_all()\"",
+    "build:dtd": "node -e \"require('./scripts').build('dtd')\"",
+    "build:xml": "node -e \"require('./scripts').build('xml')\"",
     "parse": "tree-sitter parse",
-    "test-load": "node -e \"console.log(require('./dtd').name, require('./xml').name)\"",
-    "test": "npm run test-dtd && npm run test-xml && npm run test-load",
-    "test-dtd": "cd dtd && tree-sitter test",
-    "test-xml": "cd xml && tree-sitter test",
-    "playground-xml": "cd xml && tree-sitter build-wasm && tree-sitter playground",
-    "playground-dtd": "cd dtd && tree-sitter build-wasm && tree-sitter playground"
+    "test": "node -e \"require('./scripts').test_all()\"",
+    "test:dtd": "node -e \"require('./scripts').test('dtd')\"",
+    "test:xml": "node -e \"require('./scripts').test('xml')\"",
+    "playground:dtd": "node -e \"require('./scripts').playground('dtd')\"",
+    "playground:xml": "node -e \"require('./scripts').playground('xml')\""
   },
   "publishConfig": {
     "access": "public"
