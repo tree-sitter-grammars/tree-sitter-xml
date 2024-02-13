@@ -8,7 +8,7 @@ jobs:
   npm:
     uses: tree-sitter-grammars/.github/.github/workflows/package-npm.yml@main
     with:
-      package-name: "@chronobserver/tree-sitter-xml"
+      package-name: "@tree-sitter-grammars/tree-sitter-xml"
     secrets:
       NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
   crates:

@@ -18,6 +18,7 @@ module.exports = grammar(DTD, {
     $.PITarget,
     $._pi_content,
     $.Comment,
+
     // XML
     $.CharData,
     $.CData,

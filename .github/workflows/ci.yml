@@ -2,25 +2,22 @@ name: Test grammar
 
 on:
   push:
-    branches: ["*"]
+    branches: [master]
     paths:
-      - scripts.js
-      - grammar.js
-      - common/*
-      - xml/src/**
-      - dtd/src/**
-      - bindings/**
-      - binding.gyp
+      - "scripts.js"
+      - "common/*"
+      - "*/grammar.js"
+      - "*/src/**"
+      - "bindings/**"
+      - "binding.gyp"
   pull_request:
-    branches: ["*"]
     paths:
-      - scripts.js
-      - grammar.js
-      - common/*
-      - xml/src/**
-      - dtd/src/**
-      - bindings/**
-      - binding.gyp
+      - "scripts.js"
+      - "common/*"
+      - "*/grammar.js"
+      - "*/src/**"
+      - "bindings/**"
+      - "binding.gyp"
 
 jobs:
   test:
