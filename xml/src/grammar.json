@@ -2394,8 +2394,16 @@
             "name": "CDStart"
           },
           {
-            "type": "SYMBOL",
-            "name": "CData"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "CData"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           },
           {
             "type": "STRING",

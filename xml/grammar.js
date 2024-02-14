@@ -137,7 +137,7 @@ module.exports = grammar(DTD, {
     ),
 
     CDSect: $ => prec.left(
-      seq($.CDStart, $.CData, ']]>')
+      seq($.CDStart, optional($.CData), ']]>')
     ),
 
     CDStart: _ => seq('<![', 'CDATA', '['),
