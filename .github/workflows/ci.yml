@@ -25,12 +25,16 @@ jobs:
     with:
       test-library: true
   fuzz:
-    name: Fuzz ${{matrix.language}} parser
+    name: Fuzz parsers
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         language: [xml, dtd]
-    uses: tree-sitter-grammars/.github/.github/workflows/fuzz.yml@main
-    with:
-      language: ${{matrix.language}}
-      directory: ${{matrix.language}}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Fuzz ${{matrix.language}} parser
+        uses: tree-sitter-grammars/tree-sitter-fuzz-action@v2
+        with:
+          directory: ${{matrix.language}}
