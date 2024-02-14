@@ -1,11 +1,15 @@
 [package]
 name = "tree-sitter-xml"
 description = "XML grammar for tree-sitter"
-version = "0.5.0"
+version = "0.5.1"
 license = "MIT"
 readme = "README.md"
 keywords = ["incremental", "parsing", "dtd", "xml"]
 categories = ["parsing", "text-editors"]
+authors = [
+  "ObserverOfTime <chronobserver@disroot.org>",
+  "Amaan Qureshi <amaanq12@gmail.com>"
+]
 repository = "https://github.com/tree-sitter-grammars/tree-sitter-xml"
 edition = "2021"
 
