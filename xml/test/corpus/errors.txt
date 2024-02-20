@@ -8,24 +8,19 @@ Invalid comment
 
 --------------------------------------------------------------------------------
 
-(ERROR
-  (STag
-    (Name))
-  (content
-    (CharData)
-    (element
-      (STag
-        (ERROR
-          (Nmtoken))
-        (Name)
-        (ERROR
-          (Nmtoken)
-          (Nmtoken)))
-      (content
-        (CharData))
-      (ETag
-        (Name)))
-    (CharData)))
+(document
+  (element
+    (STag
+      (Name))
+    (content
+      (CharData))
+    (ERROR
+      (Nmtoken)
+      (Name)
+      (Nmtoken)
+      (Nmtoken))
+    (ETag
+      (Name))))
 
 ================================================================================
 Invalid XML declaration

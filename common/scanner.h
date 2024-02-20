@@ -10,25 +10,32 @@ enum TokenType {
     CDATA,
     XML_MODEL,
     XML_STYLESHEET,
+    START_TAG_NAME,
+    END_TAG_NAME,
+    ERRONEOUS_END_NAME,
+    SELF_CLOSING_TAG_DELIMITER,
+    IMPLICIT_END_TAG,
 };
 
 // BUG: see cursorless-dev/vscode-parse-tree#74
 
 /// Check if the character is a letter
-#define isalpha(chr) \
-    (((chr) >= 'A' && (chr) <= 'Z') || \
-    ((chr) >= 'a' && (chr) <= 'z'))
+#define isalpha(chr) (((chr) >= 'A' && (chr) <= 'Z') || ((chr) >= 'a' && (chr) <= 'z'))
 
 /// Check if the character is alphanumeric
-#define isalnum(chr) \
-    (isalpha(chr) || ((chr) >= '0' && (chr) <= '9'))
+#define isalnum(chr) (isalpha(chr) || ((chr) >= '0' && (chr) <= '9'))
 
 /// Advance the lexer if the next token doesn't match the given character
-#define advance_if_not(lexer, chr) \
-    if ((lexer)->lookahead != (chr)) return false; advance((lexer))
+#define advance_if_not(lexer, chr)                                                                                     \
+    if ((lexer)->lookahead != (chr))                                                                                   \
+        return false;                                                                                                  \
+    advance((lexer))
 
 /// Advance the lexer to the next token
 static inline void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
+
+/// Skip the current token
+static inline void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
 
 /// Check if the character is valid in PITarget
 /// @private
@@ -60,8 +67,7 @@ static bool scan_pi_target(TSLexer *lexer, const bool *valid_symbols) {
 
     if (advanced_once) {
         while (is_valid_pi_char(lexer->lookahead)) {
-            if (found_x_first &&
-                (lexer->lookahead == 'm' || lexer->lookahead == 'M')) {
+            if (found_x_first && (lexer->lookahead == 'm' || lexer->lookahead == 'M')) {
                 advance(lexer);
                 if (lexer->lookahead == 'l' || lexer->lookahead == 'L') {
                     advance(lexer);
@@ -70,8 +76,10 @@ static bool scan_pi_target(TSLexer *lexer, const bool *valid_symbols) {
                         bool last_char_hyphen = lexer->lookahead == '-';
                         advance(lexer);
                         if (last_char_hyphen) {
-                            if (valid_symbols[XML_MODEL] && check_word(lexer, "model")) return false;
-                            if (valid_symbols[XML_STYLESHEET] && check_word(lexer, "stylesheet")) return false;
+                            if (valid_symbols[XML_MODEL] && check_word(lexer, "model"))
+                                return false;
+                            if (valid_symbols[XML_STYLESHEET] && check_word(lexer, "stylesheet"))
+                                return false;
                         }
                     } else {
                         return false;
@@ -93,15 +101,18 @@ static bool scan_pi_target(TSLexer *lexer, const bool *valid_symbols) {
 
 /// Scan for the content of a PI node
 static bool scan_pi_content(TSLexer *lexer) {
-    while (!lexer->eof(lexer) && lexer->lookahead != '\n' && lexer->lookahead != '?') advance(lexer);
+    while (!lexer->eof(lexer) && lexer->lookahead != '\n' && lexer->lookahead != '?')
+        advance(lexer);
 
-    if (lexer->lookahead != '?') return false;
+    if (lexer->lookahead != '?')
+        return false;
     lexer->mark_end(lexer);
     advance(lexer);
 
     if (lexer->lookahead == '>') {
         advance(lexer);
-        while (lexer->lookahead == ' ') advance(lexer);
+        while (lexer->lookahead == ' ')
+            advance(lexer);
         advance_if_not(lexer, '\n');
         lexer->result_symbol = PI_CONTENT;
         return true;
@@ -111,9 +122,11 @@ static bool scan_pi_content(TSLexer *lexer) {
 }
 
 /// Scan for a Comment node
-static bool scan_comment(TSLexer *lexer) {
-    advance_if_not(lexer, '<');
-    advance_if_not(lexer, '!');
+static bool scan_comment(TSLexer *lexer, bool xml) {
+    if (!xml) {
+        advance_if_not(lexer, '<');
+        advance_if_not(lexer, '!');
+    }
     advance_if_not(lexer, '-');
     advance_if_not(lexer, '-');
 
@@ -140,13 +153,11 @@ static bool scan_comment(TSLexer *lexer) {
 }
 
 /// Define the boilerplate functions of the scanner
-#define SCANNER_BOILERPLATE(name) \
-    void *tree_sitter_##name##_external_scanner_create() { return NULL; } \
-    \
-    void tree_sitter_##name##_external_scanner_destroy(void *payload) {} \
-    \
-    void tree_sitter_##name##_external_scanner_reset(void *payload) {} \
-    \
-    unsigned tree_sitter_##name##_external_scanner_serialize(void *payload, char *buffer) { return 0; } \
-    \
+#define SCANNER_BOILERPLATE(name)                                                                                      \
+    void *tree_sitter_##name##_external_scanner_create() { return NULL; }                                              \
+                                                                                                                       \
+    void tree_sitter_##name##_external_scanner_destroy(void *payload) {}                                               \
+                                                                                                                       \
+    unsigned tree_sitter_##name##_external_scanner_serialize(void *payload, char *buffer) { return 0; }                \
+                                                                                                                       \
     void tree_sitter_##name##_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) {}

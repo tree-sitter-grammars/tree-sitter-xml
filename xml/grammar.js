@@ -24,6 +24,12 @@ module.exports = grammar(DTD, {
     $.CData,
     'xml-model',
     'xml-stylesheet',
+
+    $._start_tag_name,
+    $._end_tag_name,
+    $._erroneous_end_name,
+    '/>',
+    $._implicit_end_tag,
   ],
 
   inline: $ => [
@@ -107,7 +113,7 @@ module.exports = grammar(DTD, {
 
     EmptyElemTag: $ => seq(
       '<',
-      $.Name,
+      alias($._start_tag_name, $.Name),
       c.rseq($._S, $.Attribute),
       O($._S),
       '/>'
@@ -117,13 +123,20 @@ module.exports = grammar(DTD, {
 
     STag: $ => seq(
       '<',
-      $.Name,
+      alias($._start_tag_name, $.Name),
       c.rseq($._S, $.Attribute),
       O($._S),
       '>'
     ),
 
-    ETag: $ => seq('</', $.Name, O($._S), '>'),
+    ETag: $ => seq('</', alias($._end_tag_name, $.Name), O($._S), '>'),
+
+    ErroneousETag: $ => seq(
+      '</',
+      alias($._erroneous_end_name, $.ErroneousName),
+      O($._S),
+      '>',
+    ),
 
     content: $ => repeat1(
       choice(

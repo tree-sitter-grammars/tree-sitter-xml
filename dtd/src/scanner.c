@@ -12,7 +12,7 @@ bool tree_sitter_dtd_external_scanner_scan(void *payload, TSLexer *lexer, const 
 
     if (valid_symbols[PI_CONTENT]) return scan_pi_content(lexer);
 
-    if (valid_symbols[COMMENT]) return scan_comment(lexer);
+    if (valid_symbols[COMMENT]) return scan_comment(lexer, false);
 
     return false;
 }

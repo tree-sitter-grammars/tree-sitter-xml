@@ -1016,6 +1016,10 @@
     "named": true
   },
   {
+    "type": "ErroneousName",
+    "named": true
+  },
+  {
     "type": "IGNORE",
     "named": false
   },
