@@ -29,7 +29,6 @@ module.exports = grammar(DTD, {
     $._end_tag_name,
     $._erroneous_end_name,
     '/>',
-    $._implicit_end_tag,
   ],
 
   inline: $ => [
@@ -131,9 +130,9 @@ module.exports = grammar(DTD, {
 
     ETag: $ => seq('</', alias($._end_tag_name, $.Name), O($._S), '>'),
 
-    ErroneousETag: $ => seq(
+    _ErroneousETag: $ => seq(
       '</',
-      alias($._erroneous_end_name, $.ErroneousName),
+      $._erroneous_end_name,
       O($._S),
       '>',
     ),

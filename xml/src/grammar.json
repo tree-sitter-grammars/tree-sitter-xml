@@ -2366,7 +2366,7 @@
         }
       ]
     },
-    "ErroneousETag": {
+    "_ErroneousETag": {
       "type": "SEQ",
       "members": [
         {
@@ -2374,13 +2374,8 @@
           "value": "</"
         },
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_erroneous_end_name"
-          },
-          "named": true,
-          "value": "ErroneousName"
+          "type": "SYMBOL",
+          "name": "_erroneous_end_name"
         },
         {
           "type": "CHOICE",
@@ -2704,10 +2699,6 @@
     {
       "type": "STRING",
       "value": "/>"
-    },
-    {
-      "type": "SYMBOL",
-      "name": "_implicit_end_tag"
     }
   ],
   "inline": [
@@ -2722,3 +2713,4 @@
     "_Reference"
   ]
 }
+

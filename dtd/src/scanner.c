@@ -12,9 +12,19 @@ bool tree_sitter_dtd_external_scanner_scan(void *payload, TSLexer *lexer, const 
 
     if (valid_symbols[PI_CONTENT]) return scan_pi_content(lexer);
 
-    if (valid_symbols[COMMENT]) return scan_comment(lexer, false);
+    if (valid_symbols[COMMENT]) {
+        advance_if_not(lexer, '<');
+        advance_if_not(lexer, '!');
+        return scan_comment(lexer);
+    }
 
     return false;
 }
 
-SCANNER_BOILERPLATE(dtd)
+void *tree_sitter_dtd_external_scanner_create() { return NULL; }
+
+void tree_sitter_dtd_external_scanner_destroy(void *payload) {}
+
+unsigned tree_sitter_dtd_external_scanner_serialize(void *payload, char *buffer) { return 0; }
+
+void tree_sitter_dtd_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) {}

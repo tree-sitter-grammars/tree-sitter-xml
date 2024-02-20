@@ -1,4 +1,4 @@
-#include "tree_sitter/parser.h"
+#include <tree_sitter/parser.h>
 
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic push
@@ -8,15 +8,15 @@
 #define LANGUAGE_VERSION 14
 #define STATE_COUNT 460
 #define LARGE_STATE_COUNT 2
-#define SYMBOL_COUNT 144
+#define SYMBOL_COUNT 143
 #define ALIAS_COUNT 0
-#define TOKEN_COUNT 77
-#define EXTERNAL_TOKEN_COUNT 12
+#define TOKEN_COUNT 76
+#define EXTERNAL_TOKEN_COUNT 11
 #define FIELD_COUNT 2
 #define MAX_ALIAS_SEQUENCE_LENGTH 12
 #define PRODUCTION_ID_COUNT 5
 
-enum ts_symbol_identifiers {
+enum {
   sym_Name = 1,
   anon_sym_LT_BANG_LBRACK = 2,
   anon_sym_IGNORE = 3,
@@ -92,74 +92,73 @@ enum ts_symbol_identifiers {
   sym__start_tag_name = 73,
   sym__end_tag_name = 74,
   sym__erroneous_end_name = 75,
-  sym__implicit_end_tag = 76,
-  sym_document = 77,
-  sym__markupdecl = 78,
-  sym__DeclSep = 79,
-  sym_elementdecl = 80,
-  sym_contentspec = 81,
-  sym_Mixed = 82,
-  sym_children = 83,
-  sym__cp = 84,
-  sym__choice = 85,
-  sym_AttlistDecl = 86,
-  sym_AttDef = 87,
-  sym__AttType = 88,
-  sym_StringType = 89,
-  sym__EnumeratedType = 90,
-  sym_NotationType = 91,
-  sym_Enumeration = 92,
-  sym_DefaultDecl = 93,
-  sym__EntityDecl = 94,
-  sym_GEDecl = 95,
-  sym_PEDecl = 96,
-  sym_EntityValue = 97,
-  sym_NDataDecl = 98,
-  sym_NotationDecl = 99,
-  sym_PEReference = 100,
-  sym__Reference = 101,
-  sym_EntityRef = 102,
-  sym_CharRef = 103,
-  sym_AttValue = 104,
-  sym_ExternalID = 105,
-  sym_PublicID = 106,
-  sym_SystemLiteral = 107,
-  sym_PubidLiteral = 108,
-  sym_XMLDecl = 109,
-  sym__VersionInfo = 110,
-  sym__EncodingDecl = 111,
-  sym_PI = 112,
-  sym__Eq = 113,
-  sym_prolog = 114,
-  sym__Misc = 115,
-  sym__SDDecl = 116,
-  sym_doctypedecl = 117,
-  aux_sym__intSubset = 118,
-  sym_element = 119,
-  sym_EmptyElemTag = 120,
-  sym_Attribute = 121,
-  sym_STag = 122,
-  sym_ETag = 123,
-  sym_content = 124,
-  sym_CDSect = 125,
-  sym_CDStart = 126,
-  sym_StyleSheetPI = 127,
-  sym_XmlModelPI = 128,
-  sym_PseudoAtt = 129,
-  sym_PseudoAttValue = 130,
-  aux_sym_document_repeat1 = 131,
-  aux_sym_Mixed_repeat1 = 132,
-  aux_sym__choice_repeat1 = 133,
-  aux_sym_AttlistDecl_repeat1 = 134,
-  aux_sym_NotationType_repeat1 = 135,
-  aux_sym_Enumeration_repeat1 = 136,
-  aux_sym_EntityValue_repeat1 = 137,
-  aux_sym_EntityValue_repeat2 = 138,
-  aux_sym_AttValue_repeat1 = 139,
-  aux_sym_AttValue_repeat2 = 140,
-  aux_sym_EmptyElemTag_repeat1 = 141,
-  aux_sym_content_repeat1 = 142,
-  aux_sym_StyleSheetPI_repeat1 = 143,
+  sym_document = 76,
+  sym__markupdecl = 77,
+  sym__DeclSep = 78,
+  sym_elementdecl = 79,
+  sym_contentspec = 80,
+  sym_Mixed = 81,
+  sym_children = 82,
+  sym__cp = 83,
+  sym__choice = 84,
+  sym_AttlistDecl = 85,
+  sym_AttDef = 86,
+  sym__AttType = 87,
+  sym_StringType = 88,
+  sym__EnumeratedType = 89,
+  sym_NotationType = 90,
+  sym_Enumeration = 91,
+  sym_DefaultDecl = 92,
+  sym__EntityDecl = 93,
+  sym_GEDecl = 94,
+  sym_PEDecl = 95,
+  sym_EntityValue = 96,
+  sym_NDataDecl = 97,
+  sym_NotationDecl = 98,
+  sym_PEReference = 99,
+  sym__Reference = 100,
+  sym_EntityRef = 101,
+  sym_CharRef = 102,
+  sym_AttValue = 103,
+  sym_ExternalID = 104,
+  sym_PublicID = 105,
+  sym_SystemLiteral = 106,
+  sym_PubidLiteral = 107,
+  sym_XMLDecl = 108,
+  sym__VersionInfo = 109,
+  sym__EncodingDecl = 110,
+  sym_PI = 111,
+  sym__Eq = 112,
+  sym_prolog = 113,
+  sym__Misc = 114,
+  sym__SDDecl = 115,
+  sym_doctypedecl = 116,
+  aux_sym__intSubset = 117,
+  sym_element = 118,
+  sym_EmptyElemTag = 119,
+  sym_Attribute = 120,
+  sym_STag = 121,
+  sym_ETag = 122,
+  sym_content = 123,
+  sym_CDSect = 124,
+  sym_CDStart = 125,
+  sym_StyleSheetPI = 126,
+  sym_XmlModelPI = 127,
+  sym_PseudoAtt = 128,
+  sym_PseudoAttValue = 129,
+  aux_sym_document_repeat1 = 130,
+  aux_sym_Mixed_repeat1 = 131,
+  aux_sym__choice_repeat1 = 132,
+  aux_sym_AttlistDecl_repeat1 = 133,
+  aux_sym_NotationType_repeat1 = 134,
+  aux_sym_Enumeration_repeat1 = 135,
+  aux_sym_EntityValue_repeat1 = 136,
+  aux_sym_EntityValue_repeat2 = 137,
+  aux_sym_AttValue_repeat1 = 138,
+  aux_sym_AttValue_repeat2 = 139,
+  aux_sym_EmptyElemTag_repeat1 = 140,
+  aux_sym_content_repeat1 = 141,
+  aux_sym_StyleSheetPI_repeat1 = 142,
 };
 
 static const char * const ts_symbol_names[] = {
@@ -238,8 +237,7 @@ static const char * const ts_symbol_names[] = {
   [sym_CData] = "CData",
   [sym__start_tag_name] = "Name",
   [sym__end_tag_name] = "Name",
-  [sym__erroneous_end_name] = "ErroneousName",
-  [sym__implicit_end_tag] = "_implicit_end_tag",
+  [sym__erroneous_end_name] = "_erroneous_end_name",
   [sym_document] = "document",
   [sym__markupdecl] = "_markupdecl",
   [sym__DeclSep] = "_DeclSep",
@@ -386,7 +384,6 @@ static const TSSymbol ts_symbol_map[] = {
   [sym__start_tag_name] = sym_Name,
   [sym__end_tag_name] = sym_Name,
   [sym__erroneous_end_name] = sym__erroneous_end_name,
-  [sym__implicit_end_tag] = sym__implicit_end_tag,
   [sym_document] = sym_document,
   [sym__markupdecl] = sym__markupdecl,
   [sym__DeclSep] = sym__DeclSep,
@@ -758,10 +755,6 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .named = true,
   },
   [sym__erroneous_end_name] = {
-    .visible = true,
-    .named = true,
-  },
-  [sym__implicit_end_tag] = {
     .visible = false,
     .named = true,
   },
@@ -1040,7 +1033,7 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
   },
 };
 
-enum ts_field_identifiers {
+enum {
   field_content = 1,
   field_root = 2,
 };
@@ -3474,6 +3467,80 @@ static const TSLexMode ts_lex_modes[STATE_COUNT] = {
   [459] = {.lex_state = 39},
 };
 
+enum {
+  ts_external_token_PITarget = 0,
+  ts_external_token__pi_content = 1,
+  ts_external_token_Comment = 2,
+  ts_external_token_CharData = 3,
+  ts_external_token_CData = 4,
+  ts_external_token_xml_DASHmodel = 5,
+  ts_external_token_xml_DASHstylesheet = 6,
+  ts_external_token__start_tag_name = 7,
+  ts_external_token__end_tag_name = 8,
+  ts_external_token__erroneous_end_name = 9,
+  ts_external_token_SLASH_GT = 10,
+};
+
+static const TSSymbol ts_external_scanner_symbol_map[EXTERNAL_TOKEN_COUNT] = {
+  [ts_external_token_PITarget] = sym_PITarget,
+  [ts_external_token__pi_content] = sym__pi_content,
+  [ts_external_token_Comment] = sym_Comment,
+  [ts_external_token_CharData] = sym_CharData,
+  [ts_external_token_CData] = sym_CData,
+  [ts_external_token_xml_DASHmodel] = anon_sym_xml_DASHmodel,
+  [ts_external_token_xml_DASHstylesheet] = anon_sym_xml_DASHstylesheet,
+  [ts_external_token__start_tag_name] = sym__start_tag_name,
+  [ts_external_token__end_tag_name] = sym__end_tag_name,
+  [ts_external_token__erroneous_end_name] = sym__erroneous_end_name,
+  [ts_external_token_SLASH_GT] = anon_sym_SLASH_GT,
+};
+
+static const bool ts_external_scanner_states[11][EXTERNAL_TOKEN_COUNT] = {
+  [1] = {
+    [ts_external_token_PITarget] = true,
+    [ts_external_token__pi_content] = true,
+    [ts_external_token_Comment] = true,
+    [ts_external_token_CharData] = true,
+    [ts_external_token_CData] = true,
+    [ts_external_token_xml_DASHmodel] = true,
+    [ts_external_token_xml_DASHstylesheet] = true,
+    [ts_external_token__start_tag_name] = true,
+    [ts_external_token__end_tag_name] = true,
+    [ts_external_token__erroneous_end_name] = true,
+    [ts_external_token_SLASH_GT] = true,
+  },
+  [2] = {
+    [ts_external_token_Comment] = true,
+  },
+  [3] = {
+    [ts_external_token_Comment] = true,
+    [ts_external_token_CharData] = true,
+  },
+  [4] = {
+    [ts_external_token_SLASH_GT] = true,
+  },
+  [5] = {
+    [ts_external_token_PITarget] = true,
+    [ts_external_token_xml_DASHmodel] = true,
+    [ts_external_token_xml_DASHstylesheet] = true,
+  },
+  [6] = {
+    [ts_external_token_CData] = true,
+  },
+  [7] = {
+    [ts_external_token__pi_content] = true,
+  },
+  [8] = {
+    [ts_external_token__end_tag_name] = true,
+  },
+  [9] = {
+    [ts_external_token_PITarget] = true,
+  },
+  [10] = {
+    [ts_external_token__start_tag_name] = true,
+  },
+};
+
 static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
   [0] = {
     [ts_builtin_sym_end] = ACTIONS(1),
@@ -3547,7 +3614,6 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym__start_tag_name] = ACTIONS(1),
     [sym__end_tag_name] = ACTIONS(1),
     [sym__erroneous_end_name] = ACTIONS(1),
-    [sym__implicit_end_tag] = ACTIONS(1),
   },
   [1] = {
     [sym_document] = STATE(427),
@@ -8072,83 +8138,6 @@ static const TSParseActionEntry ts_parse_actions[] = {
   [1200] = {.entry = {.count = 1, .reusable = true}}, SHIFT(437),
   [1202] = {.entry = {.count = 1, .reusable = true}}, SHIFT(438),
   [1204] = {.entry = {.count = 1, .reusable = true}}, SHIFT(439),
-};
-
-enum ts_external_scanner_symbol_identifiers {
-  ts_external_token_PITarget = 0,
-  ts_external_token__pi_content = 1,
-  ts_external_token_Comment = 2,
-  ts_external_token_CharData = 3,
-  ts_external_token_CData = 4,
-  ts_external_token_xml_DASHmodel = 5,
-  ts_external_token_xml_DASHstylesheet = 6,
-  ts_external_token__start_tag_name = 7,
-  ts_external_token__end_tag_name = 8,
-  ts_external_token__erroneous_end_name = 9,
-  ts_external_token_SLASH_GT = 10,
-  ts_external_token__implicit_end_tag = 11,
-};
-
-static const TSSymbol ts_external_scanner_symbol_map[EXTERNAL_TOKEN_COUNT] = {
-  [ts_external_token_PITarget] = sym_PITarget,
-  [ts_external_token__pi_content] = sym__pi_content,
-  [ts_external_token_Comment] = sym_Comment,
-  [ts_external_token_CharData] = sym_CharData,
-  [ts_external_token_CData] = sym_CData,
-  [ts_external_token_xml_DASHmodel] = anon_sym_xml_DASHmodel,
-  [ts_external_token_xml_DASHstylesheet] = anon_sym_xml_DASHstylesheet,
-  [ts_external_token__start_tag_name] = sym__start_tag_name,
-  [ts_external_token__end_tag_name] = sym__end_tag_name,
-  [ts_external_token__erroneous_end_name] = sym__erroneous_end_name,
-  [ts_external_token_SLASH_GT] = anon_sym_SLASH_GT,
-  [ts_external_token__implicit_end_tag] = sym__implicit_end_tag,
-};
-
-static const bool ts_external_scanner_states[11][EXTERNAL_TOKEN_COUNT] = {
-  [1] = {
-    [ts_external_token_PITarget] = true,
-    [ts_external_token__pi_content] = true,
-    [ts_external_token_Comment] = true,
-    [ts_external_token_CharData] = true,
-    [ts_external_token_CData] = true,
-    [ts_external_token_xml_DASHmodel] = true,
-    [ts_external_token_xml_DASHstylesheet] = true,
-    [ts_external_token__start_tag_name] = true,
-    [ts_external_token__end_tag_name] = true,
-    [ts_external_token__erroneous_end_name] = true,
-    [ts_external_token_SLASH_GT] = true,
-    [ts_external_token__implicit_end_tag] = true,
-  },
-  [2] = {
-    [ts_external_token_Comment] = true,
-  },
-  [3] = {
-    [ts_external_token_Comment] = true,
-    [ts_external_token_CharData] = true,
-  },
-  [4] = {
-    [ts_external_token_SLASH_GT] = true,
-  },
-  [5] = {
-    [ts_external_token_PITarget] = true,
-    [ts_external_token_xml_DASHmodel] = true,
-    [ts_external_token_xml_DASHstylesheet] = true,
-  },
-  [6] = {
-    [ts_external_token_CData] = true,
-  },
-  [7] = {
-    [ts_external_token__pi_content] = true,
-  },
-  [8] = {
-    [ts_external_token__end_tag_name] = true,
-  },
-  [9] = {
-    [ts_external_token_PITarget] = true,
-  },
-  [10] = {
-    [ts_external_token__start_tag_name] = true,
-  },
 };
 
 #ifdef __cplusplus
