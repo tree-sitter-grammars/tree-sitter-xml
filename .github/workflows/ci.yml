@@ -21,9 +21,49 @@ on:
 
 jobs:
   test:
-    uses: tree-sitter-grammars/.github/.github/workflows/ci.yml@main
-    with:
-      test-library: true
+    name: Test parsers
+    runs-on: ${{matrix.os}}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-14]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up NodeJS
+        uses: actions/setup-node@v4
+        with:
+          cache: npm
+          node-version: ${{vars.NODE_VERSION}}
+      - name: Set up Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1.8
+        if: runner.os == 'macOS'
+      - name: Install dependencies
+        shell: sh
+        run: npm ci
+      - name: Clone examples
+        uses: actions/checkout@v4
+        with:
+          path: examples/lemminx
+          repository: eclipse/lemminx
+          sparse-checkout: org.eclipse.lemminx/src/test/resources
+          ref: 6b12cd0a89205c2791ef1240e0d8401103f8c9a9
+      - name: Run tests
+        uses: tree-sitter-grammars/actions/test@main
+        with:
+          test-library: ${{runner.os == 'Linux'}}
+          examples: |-
+            examples/lemminx/org.eclipse.lemminx/src/test/resources/catalogs/
+            examples/lemminx/org.eclipse.lemminx/src/test/resources/xml-model/
+            examples/lemminx/org.eclipse.lemminx/src/test/resources/xml/
+            examples/lemminx/org.eclipse.lemminx/src/test/resources/xsd/
+            examples/lemminx/org.eclipse.lemminx/src/test/resources/dtd/
+            !examples/lemminx/org.eclipse.lemminx/src/test/resources/xsd/empty.xsd
+            !examples/lemminx/org.eclipse.lemminx/src/test/resources/xsd/foo-invalid-syntax.xsd
+            !examples/lemminx/org.eclipse.lemminx/src/test/resources/xsd/foo-ns-invalid-syntax.xsd
+            !examples/lemminx/org.eclipse.lemminx/src/test/resources/dtd/foo-invalid.dtd
+            !examples/lemminx/org.eclipse.lemminx/src/test/resources/xml/largeFile.xml
+            !examples/lemminx/org.eclipse.lemminx/src/test/resources/xml/content.xml
   fuzz:
     name: Fuzz parsers
     runs-on: ubuntu-latest
@@ -34,7 +74,15 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      - name: Check for scanner changes
+        id: scanner-changes
+        uses: tj-actions/changed-files@v42
+        with:
+          files: |-
+            common/scanner.h
+            ${{matrix.language}}/src/scanner.c
       - name: Fuzz ${{matrix.language}} parser
-        uses: tree-sitter-grammars/tree-sitter-fuzz-action@v2
+        uses: tree-sitter-grammars/tree-sitter-fuzz-action@v3
+        if: steps.scanner.changes.outputs.any_changed == 'true'
         with:
           directory: ${{matrix.language}}
