@@ -55,11 +55,16 @@
         "xml",
         "svg",
         "xsd",
-        "xslt"
+        "xslt",
+        "rng"
       ],
-      "injection-regex": "^(xml|svg|xsd|xslt)$",
+      "injection-regex": "^(xml|svg|xsd|xslt|rng)$",
       "highlights": "xml/queries/highlights.scm",
-      "path": "xml"
+      "path": "xml",
+      "external-files": [
+        "../common/index.js",
+        "../common/scanner.h"
+      ]
     },
     {
       "scope": "source.dtd",
@@ -68,7 +73,11 @@
       ],
       "injection-regex": "^dtd$",
       "highlights": "dtd/queries/highlights.scm",
-      "path": "dtd"
+      "path": "dtd",
+      "external-files": [
+        "../common/index.js",
+        "../common/scanner.h"
+      ]
     }
   ]
 }

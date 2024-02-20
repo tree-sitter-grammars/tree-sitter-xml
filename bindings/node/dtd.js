@@ -1,1 +1,1 @@
-module.exports = require('./index').dtd;
+module.exports = require('.').dtd;

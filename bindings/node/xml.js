@@ -1,1 +1,1 @@
-module.exports = require('./index').xml;
+module.exports = require('.').xml;
