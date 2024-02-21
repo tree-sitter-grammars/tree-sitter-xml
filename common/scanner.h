@@ -17,9 +17,9 @@ enum TokenType {
     SELF_CLOSING_TAG_DELIMITER,
 };
 
-/// Advance the lexer if the next token doesn't match the given character
-#define advance_if_not(lexer, chr) \
-    if ((lexer)->lookahead != (chr)) return false; advance((lexer))
+/// Advance the lexer if the next token matches the given character
+#define advance_if_eq(lexer, chr) \
+    if ((lexer)->lookahead == (chr)) advance((lexer)); else return false
 
 /// Advance the lexer to the next token
 static inline void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
@@ -39,7 +39,7 @@ static inline bool is_valid_name_start_char(wchar_t chr) {
 /// Check if the lexer matches the given word
 static inline bool check_word(TSLexer *lexer, const char *const word) {
     for (int j = 0; word[j] != '\0'; ++j) {
-        advance_if_not(lexer, word[j]);
+        advance_if_eq(lexer, word[j]);
     }
     return true;
 }
@@ -98,6 +98,7 @@ static bool scan_pi_content(TSLexer *lexer) {
 
     if (lexer->lookahead != '?')
         return false;
+
     lexer->mark_end(lexer);
     advance(lexer);
 
@@ -105,7 +106,7 @@ static bool scan_pi_content(TSLexer *lexer) {
         advance(lexer);
         while (lexer->lookahead == ' ')
             advance(lexer);
-        advance_if_not(lexer, '\n');
+        advance_if_eq(lexer, '\n');
         lexer->result_symbol = PI_CONTENT;
         return true;
     }
@@ -115,8 +116,8 @@ static bool scan_pi_content(TSLexer *lexer) {
 
 /// Scan for a Comment node
 static bool scan_comment(TSLexer *lexer) {
-    advance_if_not(lexer, '-');
-    advance_if_not(lexer, '-');
+    advance_if_eq(lexer, '-');
+    advance_if_eq(lexer, '-');
 
     while (!lexer->eof(lexer)) {
         if (lexer->lookahead == '-') {

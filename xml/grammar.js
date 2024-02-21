@@ -92,7 +92,10 @@ module.exports = grammar(DTD, {
       O($._S),
       O(seq(
         '[',
-        $._intSubset,
+        O(choice(
+          $._intSubset,
+          $._S
+        )),
         ']',
         O($._S)
       )),
@@ -132,7 +135,7 @@ module.exports = grammar(DTD, {
 
     _ErroneousETag: $ => seq(
       '</',
-      $._erroneous_end_name,
+      alias($._erroneous_end_name, $.ERROR),
       O($._S),
       '>',
     ),

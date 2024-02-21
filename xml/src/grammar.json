@@ -2121,8 +2121,25 @@
                   "value": "["
                 },
                 {
-                  "type": "SYMBOL",
-                  "name": "_intSubset"
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "_intSubset"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "_S"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
                 },
                 {
                   "type": "STRING",
@@ -2374,8 +2391,13 @@
           "value": "</"
         },
         {
-          "type": "SYMBOL",
-          "name": "_erroneous_end_name"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_erroneous_end_name"
+          },
+          "named": true,
+          "value": "ERROR"
         },
         {
           "type": "CHOICE",
@@ -2713,3 +2735,4 @@
     "_Reference"
   ]
 }
+

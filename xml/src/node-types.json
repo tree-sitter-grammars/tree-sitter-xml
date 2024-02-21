@@ -1012,6 +1012,10 @@
     "named": false
   },
   {
+    "type": "ERROR",
+    "named": true
+  },
+  {
     "type": "EncName",
     "named": true
   },

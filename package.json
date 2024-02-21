@@ -1,6 +1,6 @@
 {
   "name": "@tree-sitter-grammars/tree-sitter-xml",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "license": "MIT",
   "description": "XML & DTD grammars for tree-sitter",
   "repository": "tree-sitter-grammars/tree-sitter-xml",
@@ -56,13 +56,13 @@
         "svg",
         "xsd",
         "xslt",
+        "xsl",
         "rng"
       ],
-      "injection-regex": "^(xml|svg|xsd|xslt|rng)$",
+      "injection-regex": "^(xml|svg|xsd|xslt|xsl|rng)$",
       "highlights": "xml/queries/highlights.scm",
       "path": "xml",
       "external-files": [
-        "../common/index.js",
         "../common/scanner.h"
       ]
     },
@@ -75,7 +75,6 @@
       "highlights": "dtd/queries/highlights.scm",
       "path": "dtd",
       "external-files": [
-        "../common/index.js",
         "../common/scanner.h"
       ]
     }

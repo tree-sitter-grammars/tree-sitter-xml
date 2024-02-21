@@ -34,7 +34,7 @@ typedef struct {
 #define String() { .len = 0, .cap = STRING_CAP, .data = calloc(STRING_CAP + 1, sizeof(char)) }
 
 /// Resize a vector to the given capacity
-static inline void vec_resize(Vector *vec, uint16_t cap) {
+static inline void vec_resize(Vector *vec, uint32_t cap) {
     if (cap > vec->cap && cap > 0) {
         void *tmp = realloc(vec->data, cap * sizeof *vec->data);
         assert(tmp != NULL);
@@ -45,9 +45,8 @@ static inline void vec_resize(Vector *vec, uint16_t cap) {
 
 /// Push data to a vector
 static inline void vec_push(Vector *vec, String data) {
-    if (vec->cap == vec->len) {
+    if (vec->cap == vec->len)
         vec_resize(vec, MAX(STRING_CAP, vec->len << 1));
-    }
     vec->data[vec->len++] = data;
 }
 
@@ -73,7 +72,7 @@ static inline void vec_clear(Vector *vec) {
 /// Push an element to a vector
 static inline void string_push(String *string, char data) {
     if (string->cap == string->len) {
-        uint16_t cap = MAX(STRING_CAP, string->len << 1);
+        uint32_t cap = MAX(STRING_CAP, string->len << 1);
         void *tmp = realloc(string->data, (cap + 1) * sizeof *string->data);
         assert(tmp != NULL);
         string->data = (char *)tmp;
@@ -200,25 +199,20 @@ static bool scan_cdata(TSLexer *lexer) {
 bool tree_sitter_xml_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
     Vector *tags = (Vector *)payload;
 
-    if (in_error_recovery(valid_symbols)) {
+    if (in_error_recovery(valid_symbols))
         return false;
-    }
 
-    if (valid_symbols[PI_TARGET]) {
+    if (valid_symbols[PI_TARGET])
         return scan_pi_target(lexer, valid_symbols);
-    }
 
-    if (valid_symbols[PI_CONTENT]) {
+    if (valid_symbols[PI_CONTENT])
         return scan_pi_content(lexer);
-    }
 
-    if (valid_symbols[CHAR_DATA] && scan_char_data(lexer)) {
+    if (valid_symbols[CHAR_DATA] && scan_char_data(lexer))
         return true;
-    }
 
-    if (valid_symbols[CDATA] && scan_cdata(lexer)) {
+    if (valid_symbols[CDATA] && scan_cdata(lexer))
         return true;
-    }
 
     switch (lexer->lookahead) {
         case '<':
@@ -230,19 +224,16 @@ bool tree_sitter_xml_external_scanner_scan(void *payload, TSLexer *lexer, const 
             }
             break;
         case '/':
-            if (valid_symbols[SELF_CLOSING_TAG_DELIMITER]) {
+            if (valid_symbols[SELF_CLOSING_TAG_DELIMITER])
                 return scan_self_closing_tag_delimiter(tags, lexer);
-            }
             break;
         case '\0':
             break;
         default:
-            if (valid_symbols[START_TAG_NAME]) {
+            if (valid_symbols[START_TAG_NAME])
                 return scan_start_tag_name(tags, lexer);
-            }
-            if (valid_symbols[END_TAG_NAME]) {
+            if (valid_symbols[END_TAG_NAME])
                 return scan_end_tag_name(tags, lexer);
-            }
     }
 
     return false;
@@ -262,15 +253,15 @@ void tree_sitter_xml_external_scanner_destroy(void *payload) {
 
 unsigned tree_sitter_xml_external_scanner_serialize(void *payload, char *buffer) {
     Vector *tags = (Vector *)payload;
-    uint16_t tag_count = tags->len > UINT16_MAX ? UINT16_MAX : tags->len;
-    uint16_t serialized_tag_count = 0, size = sizeof tag_count;
+    uint32_t tag_count = tags->len > UINT16_MAX ? UINT16_MAX : tags->len;
+    uint32_t serialized_tag_count = 0, size = sizeof tag_count;
 
     memcpy(&buffer[size], &tag_count, size);
     size += sizeof tag_count;
 
     for (; serialized_tag_count < tag_count; ++serialized_tag_count) {
         String tag = tags->data[serialized_tag_count];
-        uint16_t name_length = tag.len;
+        uint32_t name_length = tag.len;
         if (name_length > UINT8_MAX) {
             name_length = UINT8_MAX;
         }
@@ -291,7 +282,7 @@ void tree_sitter_xml_external_scanner_deserialize(void *payload, const char *buf
     vec_clear(tags);
 
     if (length > 0) {
-        uint16_t size = 0, tag_count = 0, serialized_tag_count = 0;
+        uint32_t size = 0, tag_count = 0, serialized_tag_count = 0;
 
         memcpy(&serialized_tag_count, &buffer[size], sizeof serialized_tag_count);
         size += sizeof serialized_tag_count;
@@ -301,7 +292,7 @@ void tree_sitter_xml_external_scanner_deserialize(void *payload, const char *buf
 
         vec_resize(tags, tag_count);
         if (tag_count > 0) {
-            uint16_t iter = 0;
+            uint32_t iter = 0;
             for (; iter < serialized_tag_count; ++iter) {
                 String tag = tags->data[iter];
                 tag.len = tag.cap = (unsigned)buffer[size++];

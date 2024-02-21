@@ -121,4 +121,5 @@ Mismatched tag name
   (STag
     (Name))
   (content
-    (CharData)))
+    (CharData))
+  (ERROR))
