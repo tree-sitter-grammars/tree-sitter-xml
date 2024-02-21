@@ -28,19 +28,10 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-14]
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Set up NodeJS
-        uses: actions/setup-node@v4
+      - name: Set up repository
+        uses: tree-sitter-grammars/actions/setup@main
         with:
-          cache: npm
           node-version: ${{vars.NODE_VERSION}}
-      - name: Set up Rust
-        uses: actions-rust-lang/setup-rust-toolchain@v1.8
-        if: runner.os == 'macOS'
-      - name: Install dependencies
-        shell: sh
-        run: npm ci
       - name: Clone examples
         uses: actions/checkout@v4
         with:
@@ -83,6 +74,6 @@ jobs:
             ${{matrix.language}}/src/scanner.c
       - name: Fuzz ${{matrix.language}} parser
         uses: tree-sitter-grammars/tree-sitter-fuzz-action@v3
-        if: steps.scanner.changes.outputs.any_changed == 'true'
+        if: steps.scanner-changes.outputs.any_changed == 'true'
         with:
           directory: ${{matrix.language}}
