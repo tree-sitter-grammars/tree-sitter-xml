@@ -15,8 +15,8 @@
       ],
       "cflags_c": [
         "-std=c99",
-        "-Wno-misleading-indentation",
         "-Wno-unused-parameter",
+        "-Wno-unused-but-set-variable",
       ],
       "cflags_cc": [
         "-Wno-cast-function-type",
