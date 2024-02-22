@@ -1,6 +1,6 @@
 {
   "name": "@tree-sitter-grammars/tree-sitter-xml",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "license": "MIT",
   "description": "XML & DTD grammars for tree-sitter",
   "repository": "tree-sitter-grammars/tree-sitter-xml",
