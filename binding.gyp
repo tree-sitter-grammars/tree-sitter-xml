@@ -16,7 +16,6 @@
       "cflags_c": [
         "-std=c99",
         "-Wno-unused-parameter",
-        "-Wno-unused-but-set-variable",
       ],
       "cflags_cc": [
         "-Wno-cast-function-type",

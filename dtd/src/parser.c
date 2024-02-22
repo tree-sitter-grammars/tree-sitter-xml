@@ -1,4 +1,4 @@
-#include <tree_sitter/parser.h>
+#include "tree_sitter/parser.h"
 
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic push
@@ -16,7 +16,7 @@
 #define MAX_ALIAS_SEQUENCE_LENGTH 10
 #define PRODUCTION_ID_COUNT 2
 
-enum {
+enum ts_symbol_identifiers {
   sym_Name = 1,
   anon_sym_LT_BANG_LBRACK = 2,
   anon_sym_IGNORE = 3,
@@ -795,7 +795,7 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
   },
 };
 
-enum {
+enum ts_field_identifiers {
   field_content = 1,
 };
 
@@ -2731,35 +2731,6 @@ static const TSLexMode ts_lex_modes[STATE_COUNT] = {
   [302] = {.lex_state = 39},
   [303] = {.lex_state = 5},
   [304] = {.lex_state = 37},
-};
-
-enum {
-  ts_external_token_PITarget = 0,
-  ts_external_token__pi_content = 1,
-  ts_external_token_Comment = 2,
-};
-
-static const TSSymbol ts_external_scanner_symbol_map[EXTERNAL_TOKEN_COUNT] = {
-  [ts_external_token_PITarget] = sym_PITarget,
-  [ts_external_token__pi_content] = sym__pi_content,
-  [ts_external_token_Comment] = sym_Comment,
-};
-
-static const bool ts_external_scanner_states[5][EXTERNAL_TOKEN_COUNT] = {
-  [1] = {
-    [ts_external_token_PITarget] = true,
-    [ts_external_token__pi_content] = true,
-    [ts_external_token_Comment] = true,
-  },
-  [2] = {
-    [ts_external_token_Comment] = true,
-  },
-  [3] = {
-    [ts_external_token_PITarget] = true,
-  },
-  [4] = {
-    [ts_external_token__pi_content] = true,
-  },
 };
 
 static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
@@ -5849,6 +5820,35 @@ static const TSParseActionEntry ts_parse_actions[] = {
   [839] = {.entry = {.count = 1, .reusable = true}}, SHIFT(290),
   [841] = {.entry = {.count = 1, .reusable = true}}, SHIFT(291),
   [843] = {.entry = {.count = 1, .reusable = true}}, SHIFT(292),
+};
+
+enum ts_external_scanner_symbol_identifiers {
+  ts_external_token_PITarget = 0,
+  ts_external_token__pi_content = 1,
+  ts_external_token_Comment = 2,
+};
+
+static const TSSymbol ts_external_scanner_symbol_map[EXTERNAL_TOKEN_COUNT] = {
+  [ts_external_token_PITarget] = sym_PITarget,
+  [ts_external_token__pi_content] = sym__pi_content,
+  [ts_external_token_Comment] = sym_Comment,
+};
+
+static const bool ts_external_scanner_states[5][EXTERNAL_TOKEN_COUNT] = {
+  [1] = {
+    [ts_external_token_PITarget] = true,
+    [ts_external_token__pi_content] = true,
+    [ts_external_token_Comment] = true,
+  },
+  [2] = {
+    [ts_external_token_Comment] = true,
+  },
+  [3] = {
+    [ts_external_token_PITarget] = true,
+  },
+  [4] = {
+    [ts_external_token__pi_content] = true,
+  },
 };
 
 #ifdef __cplusplus

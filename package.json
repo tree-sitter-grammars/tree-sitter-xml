@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.11.17",
-    "tree-sitter-cli": "~0.20.8"
+    "tree-sitter-cli": "~0.21.0"
   },
   "scripts": {
     "build": "node -e \"require('./scripts').build_all()\"",
@@ -63,7 +63,7 @@
       "highlights": "xml/queries/highlights.scm",
       "path": "xml",
       "external-files": [
-        "../common/scanner.h"
+        "common/scanner.h"
       ]
     },
     {
@@ -75,7 +75,7 @@
       "highlights": "dtd/queries/highlights.scm",
       "path": "dtd",
       "external-files": [
-        "../common/scanner.h"
+        "common/scanner.h"
       ]
     }
   ]
