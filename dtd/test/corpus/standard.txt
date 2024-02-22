@@ -54,7 +54,7 @@ Element Declarations
   (elementdecl
     (Name)
     (contentspec
-      (Mixed
+      (children
         (PEReference
           (Name))
         (PEReference

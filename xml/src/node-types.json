@@ -214,6 +214,10 @@
         {
           "type": "AttValue",
           "named": true
+        },
+        {
+          "type": "PEReference",
+          "named": true
         }
       ]
     }

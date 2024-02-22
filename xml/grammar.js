@@ -24,12 +24,13 @@ module.exports = grammar(DTD, {
     $.CData,
     'xml-model',
     'xml-stylesheet',
-
     $._start_tag_name,
     $._end_tag_name,
     $._erroneous_end_name,
     '/>',
   ],
+
+  extras: _ => [],
 
   inline: $ => [
     $._extSubsetDecl,

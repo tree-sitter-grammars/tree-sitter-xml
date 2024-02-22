@@ -27,6 +27,10 @@ module.exports = grammar({
     $._Reference,
   ],
 
+  conflicts: $ => [
+    [$.AttlistDecl, $.AttDef]
+  ],
+
   word: $ => $.Name,
 
   rules: {
@@ -92,26 +96,34 @@ module.exports = grammar({
           '|',
           O($._S),
           c.ref($, $.Name),
-          O($._S),
+        ),
+        O($._S),
+        c.rseq(
+          $.PEReference,
+          O($._S)
         ),
         ')',
         '*'
       ),
-      seq(
+      prec(-1, seq(
         '(',
         O($._S),
         c.ref($, '#PCDATA'),
         O($._S),
+        c.rseq(
+          $.PEReference,
+          O($._S)
+        ),
         ')'
-      )
+      ))
     ),
 
-    children: $ => seq(
+    children: $ => prec(1, seq(
       $._choice,
       O(choice('?', '*', '+'))
-    ),
+    )),
 
-    _cp: $ => prec.right(seq(
+    _cp: $ => prec.left(seq(
       c.ref($, $.Name, $._choice),
       O(choice('?', '*', '+'))
     )),
@@ -126,6 +138,11 @@ module.exports = grammar({
         O($._S),
         $._cp
       ),
+      c.rseq(
+        O($._S),
+        $.PEReference,
+      ),
+      O($._S),
       ')'
     ),
 
@@ -134,7 +151,10 @@ module.exports = grammar({
       'ATTLIST',
       $._S,
       c.ref($, $.Name),
-      repeat($.AttDef),
+      repeat(choice(
+        $.AttDef,
+        seq($._S, $.PEReference)
+      )),
       O($._S),
       '>'
     ),
@@ -207,7 +227,8 @@ module.exports = grammar({
       seq(
         O(seq('#FIXED', $._S)),
         $.AttValue
-      )
+      ),
+      $.PEReference
     ),
 
     _EntityDecl: $ => choice(
