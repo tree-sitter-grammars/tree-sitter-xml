@@ -69,7 +69,7 @@ static inline void vec_clear(Vector *vec) {
     vec->len = 0;
 }
 
-/// Push an element to a vector
+/// Push a character to a string
 static inline void string_push(String *string, char data) {
     if (string->cap == string->len) {
         uint32_t cap = MAX(STRING_CAP, string->len << 1);
