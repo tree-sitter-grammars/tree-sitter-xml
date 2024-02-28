@@ -20,20 +20,6 @@ function build_all() {
 }
 
 /** @param {'dtd'|'xml'} dir */
-function test(dir) {
-  process.chdir(join(__dirname, dir));
-  assert(require(`./${dir}`).name == dir);
-  execSync('tree-sitter test', {stdio: 'inherit'});
-}
-
-function test_all() {
-  console.log('testing dtd...');
-  test('dtd');
-  console.log('testing xml...');
-  test('xml');
-}
-
-/** @param {'dtd'|'xml'} dir */
 function playground(dir) {
   process.chdir(join(__dirname, dir));
   execSync('tree-sitter build-wasm', {stdio: 'inherit'});
@@ -43,7 +29,5 @@ function playground(dir) {
 module.exports = {
   build,
   build_all,
-  test,
-  test_all,
   playground,
 }

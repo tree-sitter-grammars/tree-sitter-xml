@@ -1,0 +1,18 @@
+<!ATTLIST termdef
+          id      ID      #REQUIRED
+          name    CDATA   #IMPLIED>
+<!--      ^^^^ @property -->
+<!--              ^^^^^ @type.builtin -->
+<!--                      ^^^^^^^^ @attribute -->
+
+<!ATTLIST list
+          type    (bullets|ordered|glossary)  "ordered">
+<!--      ^^^^ @property -->
+<!--               ^^^^^^^ @string -->
+<!--                       ^^^^^^^ @string -->
+<!--                               ^^^^^^^^ @string -->
+<!--                                           ^^^^^^^ @string -->
+
+<!ATTLIST form method  CDATA   #FIXED "POST">
+<!-- ^ @keyword -->
+<!--      ^^^^ @tag -->

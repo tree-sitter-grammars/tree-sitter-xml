@@ -1,5 +1,133 @@
 ================================================================================
+Prolog and Document Type
+
+:language(xml)
+================================================================================
+
+<?xml version="1.1" encoding="UTF-8" ?>
+<!DOCTYPE greeting [
+  <!ELEMENT greeting (#PCDATA)>
+]>
+<greeting>Hello, world!</greeting>
+
+--------------------------------------------------------------------------------
+
+(document
+  (prolog
+    (XMLDecl
+      (VersionNum)
+      (EncName))
+    (doctypedecl
+      (Name)
+      (elementdecl
+        (Name)
+        (contentspec
+          (Mixed)))))
+  (element
+    (STag
+      (Name))
+    (content
+      (CharData))
+    (ETag
+      (Name))))
+
+================================================================================
+Comment
+
+:language(xml)
+================================================================================
+
+<!-- declarations for <head> & <body> -->
+<greeting/>
+
+--------------------------------------------------------------------------------
+
+(document
+  (prolog
+    (Comment))
+  (element
+    (EmptyElemTag
+      (Name))))
+
+================================================================================
+CDATA Section
+
+:language(xml)
+================================================================================
+
+<greeting>
+<![CDATA[<greeting>Hello, world!</greeting>]]>
+</greeting>
+
+--------------------------------------------------------------------------------
+
+(document
+  (element
+    (STag
+      (Name))
+    (content
+      (CharData)
+      (CDSect
+        (CDStart)
+        (CData))
+      (CharData))
+    (ETag
+      (Name))))
+
+================================================================================
+Element Tags
+
+:language(xml)
+================================================================================
+
+<termdef id="dt-dog" term="dog">
+<IMG align="left"
+ src="http://www.w3.org/Icons/WWW/w3c_home" />
+<br></br>
+<br/>
+</termdef>
+
+--------------------------------------------------------------------------------
+
+(document
+  (element
+    (STag
+      (Name)
+      (Attribute
+        (Name)
+        (AttValue))
+      (Attribute
+        (Name)
+        (AttValue)))
+    (content
+      (CharData)
+      (element
+        (EmptyElemTag
+          (Name)
+          (Attribute
+            (Name)
+            (AttValue))
+          (Attribute
+            (Name)
+            (AttValue))))
+      (CharData)
+      (element
+        (STag
+          (Name))
+        (ETag
+          (Name)))
+      (CharData)
+      (element
+        (EmptyElemTag
+          (Name)))
+      (CharData))
+    (ETag
+      (Name))))
+
+================================================================================
 Element Declarations
+
+:language(dtd)
 ================================================================================
 
 <!ELEMENT br EMPTY>
@@ -87,6 +215,8 @@ Element Declarations
 
 ================================================================================
 Attribute-List Declarations
+
+:language(dtd)
 ================================================================================
 
 <!ATTLIST termdef
@@ -130,6 +260,8 @@ Attribute-List Declarations
 
 ================================================================================
 Entity Declarations
+
+:language(dtd)
 ================================================================================
 
 <!ENTITY Pub-Status "This is a pre-release of the
@@ -171,6 +303,8 @@ Entity Declarations
 
 ================================================================================
 Conditional Sections
+
+:language(dtd)
 ================================================================================
 
 <!ENTITY % draft 'INCLUDE' >

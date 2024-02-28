@@ -1,5 +1,7 @@
 ================================================================================
 note.xml
+
+:language(xml)
 ================================================================================
 
 <?xml version="1.0" encoding="UTF-8"?>
@@ -125,6 +127,8 @@ note.xml
 
 ================================================================================
 address.xml
+
+:language(xml)
 ================================================================================
 
 <?xml version = "1.0" encoding = "UTF-8" standalone = "no" ?>
@@ -178,3 +182,74 @@ address.xml
       (CharData))
     (ETag
       (Name))))
+
+================================================================================
+BookStore.dtd
+
+:language(dtd)
+================================================================================
+
+<!ELEMENT bookstore (book*)>
+<!ELEMENT book (title,author,genre?)>
+<!ELEMENT title (#PCDATA)>
+<!ELEMENT author (first-name, last-name)>
+<!ELEMENT genre (#PCDATA)>
+<!ELEMENT first-name (#PCDATA)>
+<!ELEMENT last-name (#PCDATA)>
+<!ATTLIST book price CDATA #REQUIRED>
+<!ATTLIST book publicationdate CDATA>
+<!ATTLIST book IBSN CDATA>
+
+--------------------------------------------------------------------------------
+
+(document
+  (elementdecl
+    (Name)
+    (contentspec
+      (children
+        (Name))))
+  (elementdecl
+    (Name)
+    (contentspec
+      (children
+        (Name)
+        (Name)
+        (Name))))
+  (elementdecl
+    (Name)
+    (contentspec
+      (Mixed)))
+  (elementdecl
+    (Name)
+    (contentspec
+      (children
+        (Name)
+        (Name))))
+  (elementdecl
+    (Name)
+    (contentspec
+      (Mixed)))
+  (elementdecl
+    (Name)
+    (contentspec
+      (Mixed)))
+  (elementdecl
+    (Name)
+    (contentspec
+      (Mixed)))
+  (AttlistDecl
+    (Name)
+    (AttDef
+      (Name)
+      (StringType)
+      (DefaultDecl)))
+  (AttlistDecl
+    (Name)
+    (AttDef
+      (Name)
+      (StringType)))
+  (AttlistDecl
+    (Name)
+    (AttDef
+      (Name)
+      (StringType))))
