@@ -1,0 +1,15 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+<!--  ^^^^^^^ @property -->
+<!--           ^^^ @number -->
+<!--                ^^^^^^^^ @property -->
+<!--                          ^^^^^ @string.special -->
+<!DOCTYPE greeting [
+<!--      ^^^^^^^^ @type -->
+  <!ELEMENT greeting (#PCDATA)>
+<!--  ^ @keyword -->
+<!--                    ^^^^^^^ @type.builtin -->
+<!--          ^^^^^^^^ @tag -->
+]>
+<greeting>Hello, world!</greeting>
+<!-- ^ @tag -->
+<!--                     ^^^^^^^^ @tag -->

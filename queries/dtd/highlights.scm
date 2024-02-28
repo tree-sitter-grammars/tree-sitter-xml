@@ -70,6 +70,8 @@
 
 (AttDef (Enumeration (Nmtoken) @string))
 
+(DefaultDecl (AttValue) @string)
+
 [
   (StringType)
   (TokenizedType)

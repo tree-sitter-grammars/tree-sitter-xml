@@ -1,7 +1,7 @@
 [package]
 name = "tree-sitter-xml"
 description = "XML grammar for tree-sitter"
-version = "0.5.3"
+version = "0.6.0"
 license = "MIT"
 readme = "README.md"
 keywords = ["incremental", "parsing", "dtd", "xml"]
@@ -19,17 +19,16 @@ include = [
   "bindings/rust/*",
   "dtd/grammar.js",
   "dtd/src/*",
-  "dtd/queries/*",
   "xml/grammar.js",
   "xml/src/*",
-  "xml/queries/*",
+  "queries/*",
 ]
 
 [lib]
 path = "bindings/rust/lib.rs"
 
 [dependencies]
-tree-sitter = "~0.20.10"
+tree-sitter = "~0.21.0"
 
 [build-dependencies]
 cc = "^1.0"

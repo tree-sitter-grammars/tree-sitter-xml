@@ -7,21 +7,20 @@
 //! use tree_sitter::Parser;
 //!
 //! let code = r#"
-//!     <?xml version="1.0" encoding="UTF-8"?>
-//!     <note>
-//!     <to>Tove</to>
-//!     <from>Jani</from>
-//!     <heading>Reminder</heading>
-//!     <body>Don't forget me this weekend!</body>
-//!     </note>
+//! <?xml version="1.0" encoding="UTF-8"?>
+//! <note>
+//!   <to>Tove</to>
+//!   <from>Jani</from>
+//!   <heading>Reminder</heading>
+//!   <body>Don't forget me this weekend!</body>
+//! </note>
 //! "#;
 //! let mut parser = Parser::new();
 //! parser
-//!     .set_language(tree_sitter_xml::language_xml())
+//!     .set_language(&tree_sitter_xml::language_xml())
 //!     .expect("Error loading XML grammar");
-//! let parsed = parser.parse(code, None).unwrap();
-//! let root = parsed.root_node();
-//! assert!(!root.has_error());
+//! let tree = parser.parse(code, None).unwrap();
+//! assert!(!tree.root_node().has_error());
 //! ```
 //!
 //! [Language]: https://docs.rs/tree-sitter/*/tree_sitter/struct.Language.html
@@ -51,10 +50,10 @@ pub fn language_xml() -> Language {
 }
 
 /// The syntax highlighting queries for XML.
-pub const XML_HIGHLIGHT_QUERY: &str = include_str!("../../xml/queries/highlights.scm");
+pub const XML_HIGHLIGHT_QUERY: &str = include_str!("../../queries/xml/highlights.scm");
 
 /// The syntax highlighting queries for DTD.
-pub const DTD_HIGHLIGHT_QUERY: &str = include_str!("../../dtd/queries/highlights.scm");
+pub const DTD_HIGHLIGHT_QUERY: &str = include_str!("../../queries/dtd/highlights.scm");
 
 /// The content of the [`node-types.json`][] file for XML.
 ///
@@ -73,7 +72,7 @@ mod tests {
     fn test_can_load_xml_grammar() {
         let mut parser = tree_sitter::Parser::new();
         parser
-            .set_language(super::language_xml())
+            .set_language(&super::language_xml())
             .expect("Error loading xml language");
     }
 
@@ -81,7 +80,7 @@ mod tests {
     fn test_can_load_dtd_grammar() {
         let mut parser = tree_sitter::Parser::new();
         parser
-            .set_language(super::language_dtd())
+            .set_language(&super::language_dtd())
             .expect("Error loading dtd language");
     }
 }
