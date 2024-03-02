@@ -20,19 +20,27 @@
     "type": "github"
   },
   "keywords": [
+    "incremental",
+    "parsing",
     "tree-sitter",
-    "parser",
-    "lexer",
     "xml",
     "dtd"
   ],
   "main": "bindings/node",
+  "types": "bindings/node",
   "dependencies": {
-    "nan": "^2.18.0"
+    "node-addon-api": "^7.1.0"
   },
   "devDependencies": {
-    "@types/node": "^20.11.17",
-    "tree-sitter-cli": "~0.21.0"
+    "tree-sitter-cli": "^0.22.0"
+  },
+  "peerDependencies": {
+    "tree-sitter": "^0.21.0"
+  },
+  "peerDependenciesMeta": {
+    "tree-sitter": {
+      "optional": true
+    }
   },
   "scripts": {
     "build": "node -e \"require('./scripts').build_all()\"",

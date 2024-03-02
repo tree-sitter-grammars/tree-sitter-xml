@@ -6,7 +6,9 @@ fn main() {
 
     let mut config = cc::Build::new();
     config.include(&xml_dir);
-    config.flag_if_supported("-Wno-unused-parameter");
+    config
+        .flag_if_supported("-Wno-unused-parameter")
+        .flag_if_supported("-Wno-unused-value");
 
     for path in &[
         xml_dir.join("parser.c"),

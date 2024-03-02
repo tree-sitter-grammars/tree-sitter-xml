@@ -203,7 +203,6 @@ void tree_sitter_xml_external_scanner_destroy(void *payload) {
         array_delete(&tags->contents[i]);
     }
     array_delete(tags);
-    ts_free(tags->contents);
     ts_free(tags);
 }
 
@@ -252,10 +251,6 @@ void tree_sitter_xml_external_scanner_deserialize(void *payload, const char *buf
         uint32_t iter = 0;
         for (; iter < serialized_tag_count; ++iter) {
             String tag = tags->contents[iter];
-            tag.size = tag.capacity = (unsigned)buffer[size++];
-            tag.contents = (char *)ts_calloc(1, (tag.size + 1) * sizeof(char));
-            strncpy(tag.contents, &buffer[size], tag.size);
-            size += tag.size;
             array_push(tags, tag);
         }
         // add zero tags if we didn't read enough, this is because the
