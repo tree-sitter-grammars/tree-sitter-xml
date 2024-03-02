@@ -1,10 +1,10 @@
 [package]
 name = "tree-sitter-xml"
-description = "XML grammar for tree-sitter"
+description = "XML & DTD grammars for tree-sitter"
 version = "0.6.0"
 license = "MIT"
 readme = "README.md"
-keywords = ["incremental", "parsing", "dtd", "xml"]
+keywords = ["incremental", "parsing", "tree-sitter", "dtd", "xml"]
 categories = ["parsing", "text-editors"]
 authors = [
   "ObserverOfTime <chronobserver@disroot.org>",
@@ -31,4 +31,4 @@ path = "bindings/rust/lib.rs"
 tree-sitter = "~0.21.0"
 
 [build-dependencies]
-cc = "^1.0"
+cc = "^1.0.88"

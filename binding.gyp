@@ -2,8 +2,10 @@
   "targets": [
     {
       "target_name": "tree_sitter_xml_binding",
+      "dependencies": [
+        "<!(node -p \"require('node-addon-api').targets\"):node_addon_api_except",
+      ],
       "include_dirs": [
-        "<!(node -e \"require('nan')\")",
         "xml/src",
       ],
       "sources": [
@@ -14,11 +16,8 @@
         "bindings/node/binding.cc",
       ],
       "cflags_c": [
-        "-std=c99",
-        "-Wno-unused-parameter",
-      ],
-      "cflags_cc": [
-        "-Wno-cast-function-type",
+        "-std=c11",
+        "-Wno-unused-value",
       ]
     },
   ]
