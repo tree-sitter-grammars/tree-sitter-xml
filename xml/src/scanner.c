@@ -245,10 +245,9 @@ void *tree_sitter_xml_external_scanner_create() {
 
 void tree_sitter_xml_external_scanner_destroy(void *payload) {
     Vector *tags = (Vector *)payload;
-    for (uint32_t i = 0; i < tags->len; ++i) {
-        FREE_DATA(&tags->data[i]);
-    }
+    vec_clear(tags);
     FREE_DATA(tags);
+    free(tags);
 }
 
 unsigned tree_sitter_xml_external_scanner_serialize(void *payload, char *buffer) {
