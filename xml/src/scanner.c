@@ -294,7 +294,7 @@ void tree_sitter_xml_external_scanner_deserialize(void *payload, const char *buf
             uint32_t iter = 0;
             for (; iter < serialized_tag_count; ++iter) {
                 String tag = tags->data[iter];
-                tag.len = tag.cap = (unsigned)buffer[size++];
+                tag.len = tag.cap = (unsigned char)buffer[size++];
                 tag.data = (char *)calloc(1, (tag.len + 1) * sizeof(char));
                 strncpy(tag.data, &buffer[size], tag.len);
                 size += tag.len;
