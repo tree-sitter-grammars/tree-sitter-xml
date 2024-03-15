@@ -27,4 +27,4 @@ A tree-sitter parser for XML & DTD files.
 [matrix]: https://img.shields.io/matrix/tree-sitter-chat%3Amatrix.org?logo=matrix&label=matrix
 [npm]: https://img.shields.io/npm/v/%40tree-sitter-grammars%2Ftree-sitter-xml?logo=npm
 [crates]: https://img.shields.io/crates/v/tree-sitter-xml?logo=rust
-[pypi]: https://img.shields.io/pypi/v/tree-sitter-pymanifest?logo=pypi&logoColor=ffd242
+[pypi]: https://img.shields.io/pypi/v/tree-sitter-xml?logo=pypi&logoColor=ffd242

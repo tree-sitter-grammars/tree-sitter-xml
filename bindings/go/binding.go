@@ -1,5 +1,8 @@
 package tree_sitter_xml
 
+//go:generate make -C../../xml libtree-sitter-xml.a
+//go:generate make -C../../dtd libtree-sitter-dtd.a
+
 // #cgo CFLAGS: -std=c11 -fPIC
 // #cgo LDFLAGS: -L../../xml -l:libtree-sitter-xml.a
 // #cgo LDFLAGS: -L../../dtd -l:libtree-sitter-dtd.a

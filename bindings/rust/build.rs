@@ -7,6 +7,7 @@ fn main() {
     let mut config = cc::Build::new();
     config.include(&xml_dir);
     config
+        .flag_if_supported("-std=c11")
         .flag_if_supported("-Wno-unused-parameter")
         .flag_if_supported("-Wno-unused-value");
 
@@ -22,5 +23,5 @@ fn main() {
 
     println!("cargo:rerun-if-changed={}", common_dir.join("scanner.h").to_str().unwrap());
 
-    config.compile("parser-scanner");
+    config.compile("tree-sitter-xml");
 }

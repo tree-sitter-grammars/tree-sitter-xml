@@ -19,6 +19,6 @@
         "-std=c11",
         "-Wno-unused-value",
       ]
-    },
+    }
   ]
 }
