@@ -27,7 +27,7 @@ static inline void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 /// Check if the character is valid in a name
 /// TODO: explicitly follow https://www.w3.org/TR/xml11/#NT-Name
 static inline bool is_valid_name_char(wchar_t chr) {
-    return iswalnum(chr) || chr == '_' || chr == ':' || chr == '.' || chr == '-' || chr == L'·';
+    return iswalnum(chr) || chr == '_' || chr == ':' || chr == '.' || chr == '-' || chr == 0xB7;
 }
 
 /// Check if the character is valid to start a name

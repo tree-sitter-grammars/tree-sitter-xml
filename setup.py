@@ -40,9 +40,11 @@ setup(
                 "dtd/src/parser.c",
                 "dtd/src/scanner.c",
             ],
-            extra_compile_args=(
-                ["-std=c11", "-Wno-unused-value"] if system() != "Windows" else []
-            ),
+            extra_compile_args=[
+                "-std=c11",
+                "-Wno-unused-parameter",
+                "-Wno-unused-value",
+            ] if system() != "Windows" else [],
             define_macros=[
                 ("Py_LIMITED_API", "0x03080000"),
                 ("PY_SSIZE_T_CLEAN", None)
