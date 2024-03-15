@@ -4,6 +4,8 @@
   "license": "MIT",
   "description": "XML & DTD grammars for tree-sitter",
   "repository": "tree-sitter-grammars/tree-sitter-xml",
+  "main": "bindings/node",
+  "types": "bindings/node",
   "author": {
     "name": "ObserverOfTime",
     "email": "chronobserver@disroot.org",
@@ -26,19 +28,31 @@
     "xml",
     "dtd"
   ],
-  "main": "bindings/node",
-  "types": "bindings/node",
+  "files": [
+    "binding.gyp",
+    "prebuilds/**",
+    "bindings/node/*",
+    "queries/**",
+    "xml/grammar.js",
+    "dtd/grammar.js",
+    "xml/package.json",
+    "dtd/package.json",
+    "xml/src/**",
+    "dtd/src/**"
+  ],
   "dependencies": {
-    "node-addon-api": "^7.1.0"
+    "node-addon-api": "^7.1.0",
+    "node-gyp-build": "^4.8.0"
   },
   "devDependencies": {
+    "prebuildify": "^6.0.0",
     "tree-sitter-cli": "^0.22.0"
   },
   "peerDependencies": {
     "tree-sitter": "^0.21.0"
   },
   "peerDependenciesMeta": {
-    "tree-sitter": {
+    "tree_sitter": {
       "optional": true
     }
   },
@@ -46,6 +60,8 @@
     "build": "node -e \"require('./scripts').build_all()\"",
     "build:dtd": "node -e \"require('./scripts').build('dtd')\"",
     "build:xml": "node -e \"require('./scripts').build('xml')\"",
+    "install": "node-gyp-build",
+    "prebuildify": "prebuildify --napi --strip",
     "parse": "tree-sitter parse",
     "test": "tree-sitter test",
     "playground:dtd": "node -e \"require('./scripts').playground('dtd')\"",

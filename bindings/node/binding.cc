@@ -13,14 +13,12 @@ const napi_type_tag LANGUAGE_TYPE_TAG = {
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
     auto xml = Napi::Object::New(env);
     xml["name"] = Napi::String::New(env, "PARSER_NAME");
-    xml["language"] = Napi::External<TSLanguage>::New(env, tree_sitter_xml());
     auto xml_language = Napi::External<TSLanguage>::New(env, tree_sitter_xml());
     xml_language.TypeTag(&LANGUAGE_TYPE_TAG);
     xml["language"] = xml_language;
 
     auto dtd = Napi::Object::New(env);
     dtd["name"] = Napi::String::New(env, "PARSER_NAME");
-    dtd["language"] = Napi::External<TSLanguage>::New(env, tree_sitter_dtd());
     auto dtd_language = Napi::External<TSLanguage>::New(env, tree_sitter_dtd());
     dtd_language.TypeTag(&LANGUAGE_TYPE_TAG);
     dtd["language"] = dtd_language;
