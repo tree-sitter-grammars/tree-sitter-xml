@@ -26,6 +26,7 @@ static inline void string_push(String *string, char data) {
         uint32_t cap = max(STRING_CAP, string->size << 1);
         void *tmp = ts_realloc(string->contents, (cap + 1) * sizeof *string->contents);
         if (tmp == NULL) abort();
+
         string->contents = (char *)tmp;
         memset(string->contents + string->size, 0, (cap + 1 - string->size) * sizeof *string->contents);
         string->capacity = cap;
@@ -64,27 +65,25 @@ static bool scan_end_tag_name(Vector *tags, TSLexer *lexer) {
         array_delete(&tag_name);
         return false;
     }
+
     if (tags->size > 0 && string_equals(array_back(tags), tag_name)) {
-        array_pop(tags);
+        array_delete(&array_pop(tags));
         lexer->result_symbol = END_TAG_NAME;
     } else {
         lexer->result_symbol = ERRONEOUS_END_NAME;
     }
     array_delete(&tag_name);
-    return true;
+    return lexer->result_symbol == END_TAG_NAME;
 }
 
 static bool scan_self_closing_tag_delimiter(Vector *tags, TSLexer *lexer) {
     advance(lexer);
-    if (lexer->lookahead == '>') {
-        advance(lexer);
-        if (tags->size > 0) {
-            array_pop(tags);
-            lexer->result_symbol = SELF_CLOSING_TAG_DELIMITER;
-        }
-        return true;
+    advance_if_eq(lexer, '>');
+    if (tags->size > 0) {
+        array_delete(&array_pop(tags));
+        lexer->result_symbol = SELF_CLOSING_TAG_DELIMITER;
     }
-    return false;
+    return true;
 }
 
 /// Check if the lexer is in error recovery mode
@@ -150,20 +149,25 @@ static bool scan_cdata(TSLexer *lexer) {
 bool tree_sitter_xml_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
     Vector *tags = (Vector *)payload;
 
-    if (in_error_recovery(valid_symbols))
+    if (in_error_recovery(valid_symbols)) {
         return false;
+    }
 
-    if (valid_symbols[PI_TARGET])
+    if (valid_symbols[PI_TARGET]) {
         return scan_pi_target(lexer, valid_symbols);
+    }
 
-    if (valid_symbols[PI_CONTENT])
+    if (valid_symbols[PI_CONTENT]) {
         return scan_pi_content(lexer);
+    }
 
-    if (valid_symbols[CHAR_DATA] && scan_char_data(lexer))
+    if (valid_symbols[CHAR_DATA] && scan_char_data(lexer)) {
         return true;
+    }
 
-    if (valid_symbols[CDATA] && scan_cdata(lexer))
+    if (valid_symbols[CDATA] && scan_cdata(lexer)) {
         return true;
+    }
 
     switch (lexer->lookahead) {
         case '<':
@@ -175,16 +179,19 @@ bool tree_sitter_xml_external_scanner_scan(void *payload, TSLexer *lexer, const 
             }
             break;
         case '/':
-            if (valid_symbols[SELF_CLOSING_TAG_DELIMITER])
+            if (valid_symbols[SELF_CLOSING_TAG_DELIMITER]) {
                 return scan_self_closing_tag_delimiter(tags, lexer);
+            }
             break;
         case '\0':
             break;
         default:
-            if (valid_symbols[START_TAG_NAME])
+            if (valid_symbols[START_TAG_NAME]) {
                 return scan_start_tag_name(tags, lexer);
-            if (valid_symbols[END_TAG_NAME])
+            }
+            if (valid_symbols[END_TAG_NAME]) {
                 return scan_end_tag_name(tags, lexer);
+            }
     }
 
     return false;
@@ -200,7 +207,7 @@ void *tree_sitter_xml_external_scanner_create() {
 void tree_sitter_xml_external_scanner_destroy(void *payload) {
     Vector *tags = (Vector *)payload;
     for (uint32_t i = 0; i < tags->size; ++i) {
-        array_delete(&tags->contents[i]);
+        array_delete(array_get(tags, i));
     }
     array_delete(tags);
     ts_free(tags);
@@ -215,8 +222,8 @@ unsigned tree_sitter_xml_external_scanner_serialize(void *payload, char *buffer)
     size += sizeof tag_count;
 
     for (; serialized_tag_count < tag_count; ++serialized_tag_count) {
-        String tag = tags->contents[serialized_tag_count];
-        uint32_t name_length = tag.size;
+        String *tag = array_get(tags, serialized_tag_count);
+        uint32_t name_length = tag->size;
         if (name_length > UINT8_MAX) {
             name_length = UINT8_MAX;
         }
@@ -224,7 +231,10 @@ unsigned tree_sitter_xml_external_scanner_serialize(void *payload, char *buffer)
             break;
         }
         buffer[size++] = (char)name_length;
-        strncpy(&buffer[size], tag.contents, name_length);
+        if (name_length > 0) {
+            memcpy(&buffer[size], tag->contents, name_length);
+        }
+        array_delete(tag);
         size += name_length;
     }
 
@@ -233,31 +243,40 @@ unsigned tree_sitter_xml_external_scanner_serialize(void *payload, char *buffer)
 }
 
 void tree_sitter_xml_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) {
+    Vector *tags = (Vector *)payload;
+
+    for (unsigned i = 0; i < tags->size; ++i) {
+        array_delete(array_get(tags, i));
+    }
+    array_delete(tags);
+
     if (length == 0) return;
 
-    Vector *tags = (Vector *)payload;
-    array_clear(tags);
-
     uint32_t size = 0, tag_count = 0, serialized_tag_count = 0;
-
     memcpy(&serialized_tag_count, &buffer[size], sizeof serialized_tag_count);
     size += sizeof serialized_tag_count;
-
     memcpy(&tag_count, &buffer[size], sizeof tag_count);
     size += sizeof tag_count;
 
+    if (tag_count == 0) return;
+
     array_reserve(tags, tag_count);
-    if (tag_count > 0) {
-        uint32_t iter = 0;
-        for (; iter < serialized_tag_count; ++iter) {
-            String tag = tags->contents[iter];
-            array_push(tags, tag);
+
+    uint32_t iter = 0;
+    for (; iter < serialized_tag_count; ++iter) {
+        String tag = String();
+        tag.size = (uint8_t)buffer[size++];
+        if (tag.size > 0) {
+            array_reserve(&tag, tag.size + 1);
+            memcpy(tag.contents, &buffer[size], tag.size);
+            size += tag.size;
         }
-        // add zero tags if we didn't read enough, this is because the
-        // buffer had no more room but we held more tags.
-        for (; iter < tag_count; ++iter) {
-            String tag = String();
-            array_push(tags, tag);
-        }
+        array_push(tags, tag);
+    }
+    // add zero tags if we didn't read enough, this is because the
+    // buffer had no more room but we held more tags.
+    for (; iter < tag_count; ++iter) {
+        String tag = String();
+        array_push(tags, tag);
     }
 }
