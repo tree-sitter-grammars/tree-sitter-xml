@@ -1,4 +1,4 @@
-VERSION := 0.6.0
+VERSION := 0.6.1
 
 # repository
 SRC_DIR := src
@@ -25,11 +25,13 @@ INCLUDEDIR ?= $(PREFIX)/include
 LIBDIR ?= $(PREFIX)/lib
 PCLIBDIR ?= $(LIBDIR)/pkgconfig
 
-# object files
-OBJS := $(patsubst %.c,%.o,$(wildcard $(SRC_DIR)/*.c))
+# source/object files
+PARSER := $(SRC_DIR)/parser.c
+EXTRAS := $(filter-out $(PARSER),$(wildcard $(SRC_DIR)/*.c))
+OBJS := $(patsubst %.c,%.o,$(PARSER) $(EXTRAS))
 
 # flags
-ARFLAGS := rcs
+ARFLAGS ?= rcs
 override CFLAGS += -I$(SRC_DIR) -std=c11 -fPIC
 
 # OS-specific bits
@@ -79,7 +81,7 @@ $(LANGUAGE_NAME).pc: ../bindings/c/$(LANGUAGE_NAME).pc.in
 		-e 's|=$(PREFIX)|=$${prefix}|' \
 		-e 's|@PREFIX@|$(PREFIX)|' $< > $@
 
-$(SRC_DIR)/parser.c: grammar.js
+$(PARSER): grammar.js
 	$(TS) generate --no-bindings
 
 install: all
