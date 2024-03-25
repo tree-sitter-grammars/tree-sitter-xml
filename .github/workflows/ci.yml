@@ -32,10 +32,10 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-14]
     steps:
-      - name: Set up repository
-        uses: tree-sitter/parser-setup-action@v1.2
-        with:
-          node-version: ${{vars.NODE_VERSION}}
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up tree-sitter
+        uses: tree-sitter/setup-action/cli@v1
       - name: Clone examples
         uses: actions/checkout@v4
         with:
@@ -44,10 +44,14 @@ jobs:
           sparse-checkout: org.eclipse.lemminx/src/test/resources
           ref: 6b12cd0a89205c2791ef1240e0d8401103f8c9a9
       - name: Run tests
-        uses: tree-sitter/parser-test-action@v1.2
+        uses: tree-sitter/parser-test-action@v2
         with:
-          test-library: ${{runner.os == 'Linux'}}
-          corpus-files: |-
+          test-rust: ${{runner.os == 'Linux'}}
+      - name: Parse examples
+        uses: tree-sitter/parse-action@v4
+        continue-on-error: ${{runner.os == 'Windows'}}
+        with:
+          files: |-
             examples/lemminx/org.eclipse.lemminx/src/test/resources/catalogs/
             examples/lemminx/org.eclipse.lemminx/src/test/resources/xml-model/
             examples/lemminx/org.eclipse.lemminx/src/test/resources/xml/
@@ -70,6 +74,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
       - name: Check for scanner changes
         id: scanner-changes
         uses: tj-actions/changed-files@v42
