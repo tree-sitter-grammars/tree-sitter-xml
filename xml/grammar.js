@@ -37,6 +37,7 @@ module.exports = grammar(DTD, {
     $.conditionalSect,
   ],
 
+  // @ts-ignore
   rules: {
     document: $ => prec(2, seq(
       O($._S),

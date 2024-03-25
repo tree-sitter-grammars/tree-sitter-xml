@@ -4,10 +4,12 @@ target/
 
 # Node artifacts
 build/
+prebuilds/
 node_modules/
 
 # Swift artifacts
 .build/
+Package.resolved
 
 # Go artifacts
 go.sum

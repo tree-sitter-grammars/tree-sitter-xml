@@ -1,3 +1,9 @@
 {
-  "main": "../bindings/node/xml"
+  "main": "../bindings/node/xml",
+  "private": true,
+  "scripts": {
+    "build": "tree-sitter generate --no-bindings",
+    "prestart": "tree-sitter build --wasm -o tree-sitter-xml.wasm",
+    "start": "tree-sitter playground"
+  }
 }

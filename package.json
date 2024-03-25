@@ -1,6 +1,6 @@
 {
   "name": "@tree-sitter-grammars/tree-sitter-xml",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "license": "MIT",
   "description": "XML & DTD grammars for tree-sitter",
   "repository": "tree-sitter-grammars/tree-sitter-xml",
@@ -41,12 +41,12 @@
     "dtd/src/**"
   ],
   "dependencies": {
-    "node-addon-api": "^7.1.0",
+    "node-addon-api": "^8.0.0",
     "node-gyp-build": "^4.8.0"
   },
   "devDependencies": {
     "prebuildify": "^6.0.0",
-    "tree-sitter-cli": "^0.22.0"
+    "tree-sitter-cli": "^0.22.2"
   },
   "peerDependencies": {
     "tree-sitter": "^0.21.0"
@@ -56,16 +56,15 @@
       "optional": true
     }
   },
+  "overrides": {
+    "tree-sitter": {
+      "node-addon-api": "$node-addon-api"
+    }
+  },
   "scripts": {
-    "build": "node -e \"require('./scripts').build_all()\"",
-    "build:dtd": "node -e \"require('./scripts').build('dtd')\"",
-    "build:xml": "node -e \"require('./scripts').build('xml')\"",
     "install": "node-gyp-build",
-    "prebuildify": "prebuildify --napi --strip",
-    "parse": "tree-sitter parse",
-    "test": "tree-sitter test",
-    "playground:dtd": "node -e \"require('./scripts').playground('dtd')\"",
-    "playground:xml": "node -e \"require('./scripts').playground('xml')\""
+    "build": "prebuildify --napi --strip",
+    "version": "make update"
   },
   "publishConfig": {
     "access": "public"

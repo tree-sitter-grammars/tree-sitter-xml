@@ -2,8 +2,8 @@
 
 typedef struct TSLanguage TSLanguage;
 
-extern "C" TSLanguage * tree_sitter_xml();
-extern "C" TSLanguage * tree_sitter_dtd();
+extern "C" TSLanguage *tree_sitter_xml();
+extern "C" TSLanguage *tree_sitter_dtd();
 
 // "tree-sitter", "language" hashed with BLAKE2
 const napi_type_tag LANGUAGE_TYPE_TAG = {
@@ -12,13 +12,13 @@ const napi_type_tag LANGUAGE_TYPE_TAG = {
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
     auto xml = Napi::Object::New(env);
-    xml["name"] = Napi::String::New(env, "PARSER_NAME");
+    xml["name"] = Napi::String::New(env, "xml");
     auto xml_language = Napi::External<TSLanguage>::New(env, tree_sitter_xml());
     xml_language.TypeTag(&LANGUAGE_TYPE_TAG);
     xml["language"] = xml_language;
 
     auto dtd = Napi::Object::New(env);
-    dtd["name"] = Napi::String::New(env, "PARSER_NAME");
+    dtd["name"] = Napi::String::New(env, "dtd");
     auto dtd_language = Napi::External<TSLanguage>::New(env, tree_sitter_dtd());
     dtd_language.TypeTag(&LANGUAGE_TYPE_TAG);
     dtd["language"] = dtd_language;
@@ -28,4 +28,4 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
     return exports;
 }
 
-NODE_API_MODULE(tree_sitter_xml_binding, Init);
+NODE_API_MODULE(tree_sitter_xml_binding, Init)
