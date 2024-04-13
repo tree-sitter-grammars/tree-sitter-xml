@@ -10,8 +10,7 @@ let excludes = [
     "bindings/python",
     "bindings/rust",
     "common/common.mak",
-    "common/index.js"
-    "examples",
+    "common/index.js",
     "package.json",
     "package-lock.json",
     "pyproject.toml",
