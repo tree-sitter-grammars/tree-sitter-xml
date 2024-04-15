@@ -24,7 +24,6 @@ let excludes = [
 
 let package = Package(
     name: "TreeSitterXML",
-    platforms: [.macOS(.v10_13), .iOS(.v11)],
     products: [
         .library(name: "TreeSitterXML", targets: ["TreeSitterXML", "TreeSitterDTD"]),
     ],
