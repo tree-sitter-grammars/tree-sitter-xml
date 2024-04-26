@@ -38,7 +38,8 @@
     "xml/package.json",
     "dtd/package.json",
     "xml/src/**",
-    "dtd/src/**"
+    "dtd/src/**",
+    "common/**"
   ],
   "dependencies": {
     "node-addon-api": "^8.0.0",
