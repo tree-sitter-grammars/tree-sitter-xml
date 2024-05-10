@@ -7,8 +7,6 @@ typedef Array(char) String;
 
 typedef Array(String) Vector;
 
-static inline uint32_t max(uint32_t a, uint32_t b) { return a > b ? a : b; }
-
 static inline bool string_eq(String *a, String *b) {
     if (a->size != b->size) {
         return false;
