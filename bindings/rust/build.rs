@@ -21,7 +21,10 @@ fn main() {
         println!("cargo:rerun-if-changed={}", path.to_str().unwrap());
     }
 
-    println!("cargo:rerun-if-changed={}", common_dir.join("scanner.h").to_str().unwrap());
+    println!(
+        "cargo:rerun-if-changed={}",
+        common_dir.join("scanner.h").to_str().unwrap()
+    );
 
     config.compile("tree-sitter-xml");
 }

@@ -65,7 +65,6 @@ pub const XML_NODE_TYPES: &str = include_str!("../../xml/src/node-types.json");
 /// [`node-types.json`]: https://tree-sitter.github.io/tree-sitter/using-parsers#static-node-types
 pub const DTD_NODE_TYPES: &str = include_str!("../../dtd/src/node-types.json");
 
-
 #[cfg(test)]
 mod tests {
     #[test]
