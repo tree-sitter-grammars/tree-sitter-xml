@@ -283,3 +283,22 @@ Parameter-entity references (#10)
       (DefaultDecl))
     (PEReference
       (Name))))
+
+================================================================================
+Closing bracket in CharData (#22)
+
+:language(xml)
+================================================================================
+
+<test>]</test>
+
+--------------------------------------------------------------------------------
+
+(document
+  (element
+    (STag
+      (Name))
+    (content
+      (CharData))
+    (ETag
+      (Name))))
