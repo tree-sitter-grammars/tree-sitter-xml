@@ -44,7 +44,7 @@ let package = Package(
                 resources: [
                     .copy("queries/xml")
                 ],
-                publicHeadersPath: "bindings/swift",
+                publicHeadersPath: "bindings/swift/TreeSitterXML",
                 cSettings: [.headerSearchPath("xml/src")]),
         .target(name: "TreeSitterDTD",
                 path: ".",
@@ -61,7 +61,7 @@ let package = Package(
                 resources: [
                     .copy("queries/dtd")
                 ],
-                publicHeadersPath: "bindings/swift",
+                publicHeadersPath: "bindings/swift/TreeSitterDTD",
                 cSettings: [.headerSearchPath("dtd/src")])
     ],
     cLanguageStandard: .c11
