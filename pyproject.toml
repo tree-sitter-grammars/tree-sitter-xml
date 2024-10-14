@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "tree-sitter-xml"
 description = "XML & DTD grammars for tree-sitter"
-version = "0.6.4"
+version = "0.7.0"
 keywords = ["incremental", "parsing", "tree-sitter", "xml"]
 classifiers = [
   "Intended Audience :: Developers",
@@ -14,7 +14,11 @@ classifiers = [
   "Topic :: Text Processing :: Linguistic",
   "Typing :: Typed"
 ]
-requires-python = ">=3.8"
+authors = [
+  { name = "ObserverOfTime", email =  "chronobserver@disroot.org"},
+  { name = "Amaan Qureshi", email = "amaanq12@gmail.com" }
+]
+requires-python = ">=3.9"
 license.text = "MIT"
 readme = "README.md"
 
@@ -23,8 +27,8 @@ Homepage = "https://github.com/tree-sitter/tree-sitter-xml"
 Sponsor = "https://github.com/sponsors/ObserverOfTime"
 
 [project.optional-dependencies]
-core = ["tree-sitter~=0.21"]
+core = ["tree-sitter~=0.22"]
 
 [tool.cibuildwheel]
-build = "cp38-*"
+build = "cp39-*"
 build-frontend = "build"
