@@ -1,12 +1,12 @@
 ;; XML declaration
 
-(TextDecl "xml" @keyword)
+"xml" @keyword
 
-(TextDecl [ "version" "encoding" ] @property)
+[ "version" "encoding" ] @property
 
-(TextDecl (EncName) @string.special)
+(EncName) @string.special
 
-(TextDecl (VersionNum) @number)
+(VersionNum) @number
 
 ;; Processing instructions
 
@@ -121,7 +121,8 @@
 
 ;; Misc
 
-[ "INCLUDE" "IGNORE" ] @keyword
+; FIXME: enable when ts test is fixed
+; [ "INCLUDE" "IGNORE" ] @keyword
 
 (Comment) @comment
 
