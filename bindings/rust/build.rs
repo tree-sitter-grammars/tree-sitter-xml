@@ -5,11 +5,11 @@ fn main() {
     let common_dir = root_dir.join("common");
 
     let mut config = cc::Build::new();
-    config.include(&xml_dir);
-    config
-        .flag_if_supported("-std=c11")
-        .flag_if_supported("-Wno-unused-parameter")
-        .flag_if_supported("-Wno-unused-value");
+    config.std("c11").include(&xml_dir);
+    config.flag_if_supported("-Wno-unused-value");
+
+    #[cfg(target_env = "msvc")]
+    config.flag("-utf-8");
 
     for path in &[
         xml_dir.join("parser.c"),

@@ -1,0 +1,55 @@
+{
+  "metadata": {
+    "version": "0.7.0",
+    "description": "XML & DTD grammars for tree-sitter",
+    "links": {
+      "repository": "https://github.com/tree-sitter-grammars/tree-sitter-xml"
+    },
+    "authors": [
+      {
+        "name": "ObserverOfTime",
+        "email": "chronobserver@disroot.org",
+        "url": "https://observeroftime.github.io/"
+      },
+      {
+        "name": "Amaan Qureshi",
+        "email": "amaanq12@gmail.com"
+      }
+    ]
+  },
+  "grammars": [
+    {
+      "name": "xml",
+      "camelcase": "XML",
+      "scope": "source.xml",
+      "file-types": [
+        "xml",
+        "svg",
+        "xsd",
+        "xslt",
+        "xsl",
+        "rng"
+      ],
+      "injection-regex": "^(xml|svg|xsd|xslt|xsl|rng)$",
+      "highlights": "queries/xml/highlights.scm",
+      "path": "xml",
+      "external-files": [
+        "common/scanner.h"
+      ]
+    },
+    {
+      "name": "dtd",
+      "camelcase": "DTD",
+      "scope": "source.dtd",
+      "file-types": [
+        "dtd"
+      ],
+      "injection-regex": "^dtd$",
+      "highlights": "queries/dtd/highlights.scm",
+      "path": "dtd",
+      "external-files": [
+        "common/scanner.h"
+      ]
+    }
+  ]
+}

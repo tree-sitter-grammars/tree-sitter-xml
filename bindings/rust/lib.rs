@@ -1,6 +1,6 @@
-//! This crate provides XML and DTD grammars for the [tree-sitter][] parsing library.
+//! This crate provides XML and DTD language support for the [tree-sitter][] parsing library.
 //!
-//! Typically, you will use the [language_xml][language func] function to add this grammar to a
+//! Typically, you will use the [LANGUAGE_XML][] constant to add this language to a
 //! tree-sitter [Parser][], and then use the parser to parse some code:
 //!
 //! ```
@@ -16,38 +16,33 @@
 //! </note>
 //! "#;
 //! let mut parser = Parser::new();
+//! let language = tree_sitter_xml::LANGUAGE_XML;
 //! parser
-//!     .set_language(&tree_sitter_xml::language_xml())
-//!     .expect("Error loading XML grammar");
+//!     .set_language(&language.into())
+//!     .expect("Error loading XML parser");
 //! let tree = parser.parse(code, None).unwrap();
 //! assert!(!tree.root_node().has_error());
 //! ```
 //!
-//! [Language]: https://docs.rs/tree-sitter/*/tree_sitter/struct.Language.html
-//! [language func]: fn.language_xml.html
 //! [Parser]: https://docs.rs/tree-sitter/*/tree_sitter/struct.Parser.html
 //! [tree-sitter]: https://tree-sitter.github.io/
 
-use tree_sitter::Language;
+use tree_sitter_language::LanguageFn;
 
 extern "C" {
-    fn tree_sitter_dtd() -> Language;
-    fn tree_sitter_xml() -> Language;
+    fn tree_sitter_dtd() -> *const ();
+    fn tree_sitter_xml() -> *const ();
 }
 
-/// Returns the tree-sitter [Language][] for DTD.
+/// The tree-sitter [`LanguageFn`][LanguageFn] for the DTD grammar.
 ///
-/// [Language]: https://docs.rs/tree-sitter/*/tree_sitter/struct.Language.html
-pub fn language_dtd() -> Language {
-    unsafe { tree_sitter_dtd() }
-}
+/// [LanguageFn]: https://docs.rs/tree-sitter-language/*/tree_sitter_language/struct.LanguageFn.html
+pub const LANGUAGE_DTD: LanguageFn = unsafe { LanguageFn::from_raw(tree_sitter_dtd) };
 
-/// Returns the tree-sitter [Language][] for XML.
+/// The tree-sitter [`LanguageFn`][LanguageFn] for the XML grammar.
 ///
-/// [Language]: https://docs.rs/tree-sitter/*/tree_sitter/struct.Language.html
-pub fn language_xml() -> Language {
-    unsafe { tree_sitter_xml() }
-}
+/// [LanguageFn]: https://docs.rs/tree-sitter-language/*/tree_sitter_language/struct.LanguageFn.html
+pub const LANGUAGE_XML: LanguageFn = unsafe { LanguageFn::from_raw(tree_sitter_xml) };
 
 /// The syntax highlighting queries for XML.
 pub const XML_HIGHLIGHT_QUERY: &str = include_str!("../../queries/xml/highlights.scm");
@@ -71,15 +66,15 @@ mod tests {
     fn test_can_load_xml_grammar() {
         let mut parser = tree_sitter::Parser::new();
         parser
-            .set_language(&super::language_xml())
-            .expect("Error loading xml language");
+            .set_language(&super::LANGUAGE_XML.into())
+            .expect("Error loading XML parser");
     }
 
     #[test]
     fn test_can_load_dtd_grammar() {
         let mut parser = tree_sitter::Parser::new();
         parser
-            .set_language(&super::language_dtd())
-            .expect("Error loading dtd language");
+            .set_language(&super::LANGUAGE_DTD.into())
+            .expect("Error loading DTD parser");
     }
 }

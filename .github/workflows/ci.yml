@@ -4,7 +4,6 @@ on:
   push:
     branches: [master]
     paths:
-      - "scripts.js"
       - "common/*"
       - "*/grammar.js"
       - "*/src/**"
@@ -12,7 +11,6 @@ on:
       - "binding.gyp"
   pull_request:
     paths:
-      - "scripts.js"
       - "common/*"
       - "*/grammar.js"
       - "*/src/**"
@@ -42,7 +40,7 @@ jobs:
           path: examples/lemminx
           repository: eclipse/lemminx
           sparse-checkout: org.eclipse.lemminx/src/test/resources
-          ref: 6b12cd0a89205c2791ef1240e0d8401103f8c9a9
+          ref: d3a123531c8b48d6139759beab6ea1fdaeefe158
       - name: Run tests
         uses: tree-sitter/parser-test-action@v2
         with:
@@ -78,7 +76,7 @@ jobs:
           fetch-depth: 2
       - name: Check for scanner changes
         id: scanner-changes
-        uses: tj-actions/changed-files@v42
+        uses: tj-actions/changed-files@v45
         with:
           files: |-
             common/scanner.h

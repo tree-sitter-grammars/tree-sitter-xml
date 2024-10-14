@@ -1,12 +1,12 @@
 ;; XML declaration
 
-(XMLDecl "xml" @keyword)
+(TextDecl "xml" @keyword)
 
-(XMLDecl [ "version" "encoding" ] @property)
+(TextDecl [ "version" "encoding" ] @property)
 
-(XMLDecl (EncName) @string.special)
+(TextDecl (EncName) @string.special)
 
-(XMLDecl (VersionNum) @number)
+(TextDecl (VersionNum) @number)
 
 ;; Processing instructions
 
@@ -107,7 +107,11 @@
 
 ;; Delimiters & punctuation
 
-[ "<?" "?>" "<!" ">" "]]>" ] @punctuation.delimiter
+[
+  "<?" "?>"
+  "<!" ">"
+  "<![" "]]>"
+] @punctuation.delimiter
 
 [ "(" ")" "[" ] @punctuation.bracket
 

@@ -4,13 +4,14 @@
  * @license MIT
  */
 
-const c = require('../common');
+/// <reference types="tree-sitter-cli/dsl" />
+// @ts-check
 
-const DTD = require('../dtd/grammar');
+import * as c from '../common/common.mjs';
 
 const O = optional;
 
-module.exports = grammar(DTD, {
+export default grammar({
   name: 'xml',
 
   externals: $ => [
@@ -32,12 +33,20 @@ module.exports = grammar(DTD, {
 
   extras: _ => [],
 
-  inline: $ => [
-    $._extSubsetDecl,
-    $.conditionalSect,
+  supertypes: $ => [
+    $._markupdecl,
+    $._AttType,
+    $._EnumeratedType,
+    $._EntityDecl,
+    $._Reference,
   ],
 
-  // @ts-ignore
+  conflicts: $ => [
+    [$.AttlistDecl, $.AttDef]
+  ],
+
+  word: $ => $.Name,
+
   rules: {
     document: $ => prec(2, seq(
       O($._S),
@@ -180,6 +189,8 @@ module.exports = grammar(DTD, {
     PseudoAttValue: $ => choice(
       c.att_value($, '"'),
       c.att_value($, "'")
-    )
+    ),
+
+    ...c.rules
   }
 });

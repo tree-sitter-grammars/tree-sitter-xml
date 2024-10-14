@@ -145,7 +145,7 @@ Element Declarations
 
 --------------------------------------------------------------------------------
 
-(document
+(extSubset
   (elementdecl
     (Name)
     (contentspec))
@@ -229,7 +229,7 @@ Attribute-List Declarations
 
 --------------------------------------------------------------------------------
 
-(document
+(extSubset
   (AttlistDecl
     (Name)
     (AttDef
@@ -278,7 +278,7 @@ Entity Declarations
 
 --------------------------------------------------------------------------------
 
-(document
+(extSubset
   (GEDecl
     (Name)
     (EntityValue))
@@ -318,7 +318,7 @@ Conditional Sections
 
 --------------------------------------------------------------------------------
 
-(document
+(extSubset
   (PEDecl
     (Name)
     (EntityValue))

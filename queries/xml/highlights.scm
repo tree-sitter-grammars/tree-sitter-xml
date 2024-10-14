@@ -155,18 +155,13 @@
  "</" "/>"
 ] @punctuation.delimiter
 
-[
-  "(" ")"
-  "[" "]"
-] @punctuation.bracket
+[ "(" ")" "[" "]" ] @punctuation.bracket
 
 [ "\"" "'" ] @punctuation.delimiter
 
 [ "," "|" "=" ] @operator
 
 ;; Misc
-
-[ "INCLUDE" "IGNORE" ] @keyword
 
 (Comment) @comment
 

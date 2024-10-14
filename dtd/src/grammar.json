@@ -1,8 +1,9 @@
 {
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/grammar.schema.json",
   "name": "dtd",
   "word": "Name",
   "rules": {
-    "document": {
+    "extSubset": {
       "type": "SEQ",
       "members": [
         {
@@ -10,7 +11,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "XMLDecl"
+              "name": "TextDecl"
             },
             {
               "type": "BLANK"
@@ -23,6 +24,51 @@
             "type": "SYMBOL",
             "name": "_extSubsetDecl"
           }
+        }
+      ]
+    },
+    "TextDecl": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "<?"
+        },
+        {
+          "type": "STRING",
+          "value": "xml"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_VersionInfo"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_EncodingDecl"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_S"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "?>"
         }
       ]
     },
@@ -1735,51 +1781,6 @@
               "value": "'"
             }
           ]
-        }
-      ]
-    },
-    "XMLDecl": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "<?"
-        },
-        {
-          "type": "STRING",
-          "value": "xml"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_VersionInfo"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_EncodingDecl"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_S"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "STRING",
-          "value": "?>"
         }
       ]
     },
