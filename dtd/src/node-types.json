@@ -456,7 +456,7 @@
     }
   },
   {
-    "type": "XMLDecl",
+    "type": "TextDecl",
     "named": true,
     "fields": {},
     "children": {
@@ -540,33 +540,6 @@
     }
   },
   {
-    "type": "document",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "PEReference",
-          "named": true
-        },
-        {
-          "type": "XMLDecl",
-          "named": true
-        },
-        {
-          "type": "_markupdecl",
-          "named": true
-        },
-        {
-          "type": "conditionalSect",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "elementdecl",
     "named": true,
     "fields": {},
@@ -584,6 +557,34 @@
         },
         {
           "type": "contentspec",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "extSubset",
+    "named": true,
+    "root": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "PEReference",
+          "named": true
+        },
+        {
+          "type": "TextDecl",
+          "named": true
+        },
+        {
+          "type": "_markupdecl",
+          "named": true
+        },
+        {
+          "type": "conditionalSect",
           "named": true
         }
       ]

@@ -3,8 +3,8 @@ package tree_sitter_xml_test
 import (
 	"testing"
 
-	tree_sitter "github.com/smacker/go-tree-sitter"
-	"github.com/tree-sitter-grammars/tree-sitter-xml"
+	tree_sitter "github.com/tree-sitter/go-tree-sitter"
+	tree_sitter_xml "github.com/tree-sitter-grammars/tree-sitter-xml/bindings/go"
 )
 
 func TestCanLoadXMLGrammar(t *testing.T) {

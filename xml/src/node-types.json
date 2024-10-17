@@ -747,6 +747,7 @@
   {
     "type": "document",
     "named": true,
+    "root": true,
     "fields": {
       "root": {
         "multiple": false,
@@ -1016,20 +1017,8 @@
     "named": false
   },
   {
-    "type": "ERROR",
-    "named": true
-  },
-  {
     "type": "EncName",
     "named": true
-  },
-  {
-    "type": "IGNORE",
-    "named": false
-  },
-  {
-    "type": "INCLUDE",
-    "named": false
   },
   {
     "type": "NDATA",

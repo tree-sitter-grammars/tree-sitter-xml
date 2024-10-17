@@ -83,7 +83,7 @@ Parameter-entity references (#10)
 
 --------------------------------------------------------------------------------
 
-(document
+(extSubset
   (Comment)
   (elementdecl
     (Name)
