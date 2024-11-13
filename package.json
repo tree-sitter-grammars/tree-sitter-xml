@@ -35,6 +35,7 @@
     "queries/**",
     "xml/grammar.js",
     "dtd/grammar.js",
+    "tree-sitter.json",
     "xml/package.json",
     "dtd/package.json",
     "xml/src/**",
@@ -42,12 +43,12 @@
     "common/**"
   ],
   "dependencies": {
-    "node-addon-api": "^8.2.1",
-    "node-gyp-build": "^4.8.2"
+    "node-addon-api": "^8.2.2",
+    "node-gyp-build": "^4.8.3"
   },
   "devDependencies": {
     "prebuildify": "^6.0.1",
-    "tree-sitter-cli": "^0.24.3"
+    "tree-sitter-cli": "^0.24.4"
   },
   "peerDependencies": {
     "tree-sitter": "^0.21.1"
