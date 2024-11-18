@@ -3,6 +3,7 @@ from platform import system
 
 from setuptools import Extension, find_packages, setup
 from setuptools.command.build import build
+from setuptools.command.egg_info import egg_info
 from wheel.bdist_wheel import bdist_wheel
 
 
@@ -12,6 +13,14 @@ class Build(build):
             dest = join(self.build_lib, "tree_sitter_xml", "queries")
             self.copy_tree("queries", dest)
         super().run()
+
+
+class EggInfo(egg_info):
+    def find_sources(self):
+        super().find_sources()
+        self.filelist.recursive_include("queries", "*.scm")
+        self.filelist.include("xml/src/tree_sitter/*.h")
+        self.filelist.include("common/scanner.h")
 
 
 class BdistWheel(bdist_wheel):
@@ -58,7 +67,8 @@ setup(
     ],
     cmdclass={
         "build": Build,
-        "bdist_wheel": BdistWheel
+        "bdist_wheel": BdistWheel,
+        "egg_info": EggInfo
     },
     zip_safe=False
 )
