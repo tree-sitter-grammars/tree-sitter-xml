@@ -21,13 +21,12 @@ export const pubid_char = (q) =>
 export const att_value = ($, q) =>
   seq(
     q,
-    field(
-      'content',
-      repeat(choice(
+    optional(alias(field('content',
+      repeat1(choice(
         new RegExp(`[^<&${q}]`),
         $._Reference
       ))
-    ),
+    ),"content")),
     q
   );
 
