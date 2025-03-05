@@ -1559,24 +1559,37 @@
               "value": "\""
             },
             {
-              "type": "FIELD",
-              "name": "content",
-              "content": {
-                "type": "REPEAT",
-                "content": {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "PATTERN",
-                      "value": "[^<&\"]"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "_Reference"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "FIELD",
+                    "name": "content",
+                    "content": {
+                      "type": "REPEAT1",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "[^<&\"]"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_Reference"
+                          }
+                        ]
+                      }
                     }
-                  ]
+                  },
+                  "named": false,
+                  "value": "content"
+                },
+                {
+                  "type": "BLANK"
                 }
-              }
+              ]
             },
             {
               "type": "STRING",
@@ -1592,24 +1605,37 @@
               "value": "'"
             },
             {
-              "type": "FIELD",
-              "name": "content",
-              "content": {
-                "type": "REPEAT",
-                "content": {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "PATTERN",
-                      "value": "[^<&']"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "_Reference"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "FIELD",
+                    "name": "content",
+                    "content": {
+                      "type": "REPEAT1",
+                      "content": {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "PATTERN",
+                            "value": "[^<&']"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "_Reference"
+                          }
+                        ]
+                      }
                     }
-                  ]
+                  },
+                  "named": false,
+                  "value": "content"
+                },
+                {
+                  "type": "BLANK"
                 }
-              }
+              ]
             },
             {
               "type": "STRING",

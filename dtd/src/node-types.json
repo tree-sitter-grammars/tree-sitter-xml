@@ -121,12 +121,12 @@
     "named": true,
     "fields": {
       "content": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
           {
-            "type": "_Reference",
-            "named": true
+            "type": "content",
+            "named": false
           }
         ]
       }
@@ -511,6 +511,21 @@
         },
         {
           "type": "conditionalSect",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "content",
+    "named": false,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "_Reference",
           "named": true
         }
       ]
