@@ -1,0 +1,34 @@
+name: Fuzz
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - common/scanner.h
+      - xml/src/scanner.c
+      - dtd/src/scanner.c
+  pull_request:
+    paths:
+      - common/scanner.h
+      - xml/src/scanner.c
+      - dtd/src/scanner.c
+
+concurrency:
+  group: ${{github.workflow}}-${{github.ref}}
+  cancel-in-progress: true
+
+jobs:
+  fuzz:
+    name: Fuzz parsers
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [xml, dtd]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Fuzz ${{matrix.language}} parser
+        uses: tree-sitter/fuzz-action@v4
+        with:
+          directory: ${{matrix.language}}

@@ -62,27 +62,3 @@ jobs:
             examples/lemminx/org.eclipse.lemminx/src/test/resources/xsd/foo-invalid-syntax.xsd
             examples/lemminx/org.eclipse.lemminx/src/test/resources/xsd/foo-ns-invalid-syntax.xsd
             examples/lemminx/org.eclipse.lemminx/src/test/resources/dtd/foo-invalid.dtd
-  fuzz:
-    name: Fuzz parsers
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        language: [xml, dtd]
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
-      - name: Check for scanner changes
-        id: scanner-changes
-        uses: tj-actions/changed-files@v45
-        with:
-          files: |-
-            common/scanner.h
-            ${{matrix.language}}/src/scanner.c
-      - name: Fuzz ${{matrix.language}} parser
-        uses: tree-sitter/fuzz-action@v4
-        if: steps.scanner-changes.outputs.any_changed == 'true'
-        with:
-          directory: ${{matrix.language}}
