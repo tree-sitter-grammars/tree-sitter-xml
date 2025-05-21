@@ -2005,5 +2005,6 @@
     "_EnumeratedType",
     "_EntityDecl",
     "_Reference"
-  ]
+  ],
+  "reserved": {}
 }
