@@ -5,7 +5,7 @@ version = "0.7.0"
 license = "MIT"
 readme = "README.md"
 keywords = ["incremental", "parsing", "tree-sitter", "dtd", "xml"]
-categories = ["parsing", "text-editors"]
+categories = ["parser-implementations", "parsing", "text-editors"]
 authors = [
   "ObserverOfTime <chronobserver@disroot.org>",
   "Amaan Qureshi <amaanq12@gmail.com>",
@@ -34,7 +34,7 @@ path = "bindings/rust/lib.rs"
 tree-sitter-language = "0.1"
 
 [build-dependencies]
-cc = "1.1"
+cc = "1.2"
 
 [dev-dependencies]
-tree-sitter = "0.24"
+tree-sitter = "0.25.4"

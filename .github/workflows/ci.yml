@@ -28,22 +28,23 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-14]
+        os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Set up tree-sitter
-        uses: tree-sitter/setup-action/cli@v1
+        uses: tree-sitter/setup-action/cli@v2
       - name: Clone examples
         uses: actions/checkout@v4
         with:
           path: examples/lemminx
           repository: eclipse/lemminx
           sparse-checkout: org.eclipse.lemminx/src/test/resources
-          ref: d3a123531c8b48d6139759beab6ea1fdaeefe158
+          ref: d1e719c88a8b3c1a0debf437c3b5758d7eb22422
       - name: Run tests
         uses: tree-sitter/parser-test-action@v2
         with:
+          generate: false
           test-rust: ${{runner.os == 'Linux'}}
       - name: Parse examples
         uses: tree-sitter/parse-action@v4
