@@ -204,9 +204,9 @@ void tree_sitter_xml_external_scanner_destroy(void *payload) {
 unsigned tree_sitter_xml_external_scanner_serialize(void *payload, char *buffer) {
     Vector *tags = (Vector *)payload;
     uint32_t tag_count = tags->size > UINT16_MAX ? UINT16_MAX : tags->size;
-    uint32_t serialized_tag_count = 0, size = sizeof tag_count;
+    uint32_t serialized_tag_count = 0, size = 0;
 
-    memcpy(&buffer[size], &tag_count, size);
+    memcpy(&buffer[size], &tag_count, sizeof tag_count);
     size += sizeof tag_count;
 
     for (; serialized_tag_count < tag_count; ++serialized_tag_count) {
