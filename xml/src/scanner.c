@@ -236,7 +236,7 @@ void tree_sitter_xml_external_scanner_deserialize(void *payload, const char *buf
     for (unsigned i = 0; i < tags->size; ++i) {
         array_delete(array_get(tags, i));
     }
-    array_delete(tags);
+    array_clear(tags);
 
     if (length == 0) return;
 
