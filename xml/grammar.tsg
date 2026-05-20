@@ -1,0 +1,79 @@
+// XML grammar for tree-sitter (native DSL).
+// Mirrors xml/grammar.js. Shares rules with dtd via ../common/common.tsg.
+
+let c = import("../common/common.tsg")
+
+grammar {
+    language: "xml",
+    externals: [
+        // DTD
+        PITarget,
+        _pi_content,
+        Comment,
+        // XML
+        CharData,
+        CData,
+        "xml-model",
+        "xml-stylesheet",
+        _start_tag_name,
+        _end_tag_name,
+        _erroneous_end_name,
+        "/>",
+    ],
+    extras: [],
+    supertypes: [_markupdecl, _AttType, _EnumeratedType, _EntityDecl, _Reference],
+    conflicts: [[AttlistDecl, AttDef]],
+    word: Name,
+    start: document,
+}
+
+// PI and _markupdecl depend on externals declared in this grammar; both
+// are exposed as macros in common.tsg, instantiated here.
+rule PI { c::PI_(PITarget, _pi_content) }
+rule _markupdecl { c::markupdecl_(PI, Comment) }
+
+rule document { prec(2, seq(optional(_S), optional(prolog), field(root, element), repeat(_Misc))) }
+
+rule prolog { choice(
+    seq(XMLDecl, repeat(_Misc)),
+    seq(optional(XMLDecl), repeat(_Misc), doctypedecl, repeat(_Misc)),
+    repeat1(_Misc),
+) }
+
+rule _Misc { choice(PI, StyleSheetPI, XmlModelPI, Comment, _S) }
+
+rule XMLDecl { seq("<?", "xml", _VersionInfo, optional(_EncodingDecl), optional(_SDDecl), optional(_S), "?>") }
+
+rule _SDDecl { seq(_S, "standalone", _Eq, c::str_(choice("yes", "no"))) }
+
+rule doctypedecl { seq(
+    "<!", "DOCTYPE", _S, Name,
+    optional(seq(_S, ExternalID)),
+    optional(_S),
+    optional(seq("[", optional(choice(_intSubset, _S)), "]", optional(_S))),
+    ">",
+) }
+
+rule _intSubset { c::rseq1([optional(_S), _markupdecl, _DeclSep]) }
+
+rule element { choice(EmptyElemTag, seq(STag, optional(content), ETag)) }
+
+rule EmptyElemTag { seq("<", alias(_start_tag_name, Name), c::rseq([_S, Attribute]), optional(_S), "/>") }
+
+rule Attribute { seq(Name, _Eq, AttValue) }
+
+rule STag { seq("<", alias(_start_tag_name, Name), c::rseq([_S, Attribute]), optional(_S), ">") }
+rule ETag { seq("</", alias(_end_tag_name, Name), optional(_S), ">") }
+
+rule _ErroneousETag { seq("</", alias(_erroneous_end_name, ERROR), optional(_S), ">") }
+
+rule content { repeat1(choice(CharData, element, _Reference, CDSect, PI, Comment)) }
+
+rule CDSect { prec_left(0, seq(CDStart, optional(CData), "]]>")) }
+rule CDStart { seq("<![", "CDATA", "[") }
+
+rule StyleSheetPI { seq("<?", "xml-stylesheet", c::rseq([_S, PseudoAtt]), optional(_S), "?>") }
+rule XmlModelPI { seq("<?", "xml-model", c::rseq([_S, PseudoAtt]), optional(_S), "?>") }
+
+rule PseudoAtt { seq(Name, _Eq, PseudoAttValue) }
+rule PseudoAttValue { choice(c::att_value_dq(_Reference), c::att_value_sq(_Reference)) }

@@ -1,0 +1,162 @@
+// Shared rules and helpers for tree-sitter-xml.
+// Mirrors common/common.mjs. Rules that reference importer-supplied
+// externals (PI -> PITarget, _pi_content; _markupdecl -> Comment) are
+// exposed as macros so the importer can supply its own externals.
+//
+// Quote-parameterized helpers from common.mjs (att_value, entity_value,
+// pubid_char) are split into `_dq`/`_sq` variants since the DSL has no
+// string concat to compose `[^<&q]` regex patterns dynamically.
+
+// ----- Plain rules (self-contained) -----
+
+rule _S { regexp(r"[ \t\r\n]+") }
+rule Name { regexp(r"[a-zA-Z_][a-zA-Z0-9_:.·-]*") }
+rule Nmtoken { regexp(r"[a-zA-Z0-9_:.·-]+") }
+
+rule _Reference { choice(EntityRef, CharRef) }
+rule EntityRef { seq("&", Name, ";") }
+rule CharRef { choice(seq("&#", regexp(r"[0-9]+"), ";"), seq("&#x", regexp(r"[0-9a-fA-F]+"), ";")) }
+
+rule PEReference { seq("%", Name, ";") }
+
+rule _Eq { seq(optional(_S), "=", optional(_S)) }
+
+rule VersionNum { regexp(r"1\.[0-9]+") }
+rule EncName { regexp(r"[A-Za-z][A-Za-z0-9._\-]*") }
+
+rule _VersionInfo { seq(_S, "version", _Eq, str_(VersionNum)) }
+rule _EncodingDecl { seq(_S, "encoding", _Eq, str_(EncName)) }
+
+rule AttValue { choice(att_value_dq(_Reference), att_value_sq(_Reference)) }
+rule EntityValue { choice(entity_value_dq(PEReference, _Reference), entity_value_sq(PEReference, _Reference)) }
+
+rule SystemLiteral { choice(seq("\"", alias(regexp(r#"[^"]*"#), URI), "\""), seq("'", alias(regexp(r"[^']*"), URI), "'")) }
+rule PubidLiteral { choice(
+    seq("\"", regexp(r"[ \r\na-zA-Z0-9\-'()+,./:=?;!*#@$_%]*"), "\""),
+    seq("'", regexp(r"[ \r\na-zA-Z0-9\-()+,./:=?;!*#@$_%]*"), "'"),
+) }
+
+rule ExternalID { choice(seq("SYSTEM", _S, SystemLiteral), seq("PUBLIC", _S, PubidLiteral, _S, SystemLiteral)) }
+rule PublicID { prec_right(0, seq(ref1("PUBLIC"), _S, PubidLiteral)) }
+
+rule elementdecl { seq("<!", "ELEMENT", _S, ref1(Name), _S, contentspec, optional(_S), ">") }
+rule contentspec { choice("EMPTY", "ANY", Mixed, children, PEReference) }
+
+rule Mixed { choice(
+    seq("(", optional(_S), ref1("#PCDATA"),
+        rseq([optional(_S), "|", optional(_S), ref1(Name)]),
+        optional(_S),
+        rseq([PEReference, optional(_S)]),
+        ")", "*"),
+    prec(-1, seq("(", optional(_S), ref1("#PCDATA"), optional(_S),
+        rseq([PEReference, optional(_S)]),
+        ")")),
+) }
+
+rule children { prec(1, seq(_choice, optional(choice("?", "*", "+")))) }
+rule _cp { prec_left(0, seq(ref2(Name, _choice), optional(choice("?", "*", "+")))) }
+rule _choice { seq(
+    "(", optional(_S), _cp,
+    rseq([optional(_S), choice("|", ","), optional(_S), _cp]),
+    rseq([optional(_S), PEReference]),
+    optional(_S), ")",
+) }
+
+rule AttlistDecl { seq(
+    "<!", "ATTLIST", _S, ref1(Name),
+    repeat(choice(AttDef, seq(_S, PEReference))),
+    optional(_S), ">",
+) }
+
+rule AttDef { prec_right(0, seq(_S, ref1(Name), _S, _AttType, optional(seq(_S, DefaultDecl)))) }
+
+rule _AttType { choice(StringType, TokenizedType, _EnumeratedType, PEReference) }
+rule StringType { "CDATA" }
+rule TokenizedType { token(choice("ID", "IDREF", "IDREFS", "ENTITY", "ENTITIES", "NMTOKEN", "NMTOKENS")) }
+
+rule _EnumeratedType { choice(NotationType, Enumeration) }
+rule NotationType { seq(
+    "NOTATION", _S, "(", optional(_S), ref1(Name),
+    rseq([optional(_S), "|", optional(_S)]),
+    ref1(Name), optional(_S), ")",
+) }
+rule Enumeration { seq(
+    "(", optional(_S), Nmtoken,
+    rseq([optional(_S), "|", optional(_S), Nmtoken]),
+    optional(_S), ")",
+) }
+
+rule DefaultDecl { choice(
+    "#REQUIRED", "#IMPLIED",
+    seq(optional(seq("#FIXED", _S)), AttValue),
+    PEReference,
+) }
+
+rule _EntityDecl { choice(GEDecl, PEDecl) }
+rule GEDecl { seq(
+    "<!", "ENTITY", _S, ref1(Name), _S,
+    choice(EntityValue, seq(ExternalID, optional(NDataDecl))),
+    optional(_S), ">",
+) }
+rule PEDecl { seq(
+    "<!", "ENTITY", _S, "%", _S, Name, _S,
+    choice(EntityValue, ExternalID),
+    optional(_S), ">",
+) }
+
+rule NDataDecl { seq(_S, "NDATA", _S, ref1(Name)) }
+
+rule NotationDecl { seq(
+    "<!", "NOTATION", _S, ref1(Name), _S,
+    choice(ExternalID, PublicID),
+    optional(_S), ">",
+) }
+
+// ----- Macros for rules that depend on importer-supplied externals -----
+
+// PI: depends on PITarget and _pi_content externals from the importer.
+macro PI_(pi_target: rule_t, pi_content: rule_t) rule_t {
+    seq("<?", pi_target, optional(seq(_S, pi_content)), "?>")
+}
+
+// _markupdecl: depends on PI (importer wraps PI_ as a rule) and Comment (external).
+macro markupdecl_(pi: rule_t, comment: rule_t) rule_t {
+    choice(elementdecl, AttlistDecl, _EntityDecl, NotationDecl, pi, comment)
+}
+
+// _DeclSep: depends on the importer's PEReference (same name, but local).
+// Actually self-contained since PEReference is defined here.
+rule _DeclSep { choice(PEReference, _S) }
+
+// ----- Helper macros -----
+
+// str(...c) = choice(seq("'", ...c, "'"), seq('"', ...c, '"'))
+// All call sites pass a single arg, so 1-arg form is sufficient.
+macro str_(c: rule_t) rule_t {
+    choice(seq("'", c, "'"), seq("\"", c, "\""))
+}
+
+// ref(...c) = choice(...c, PEReference). Variadic in JS; call sites use 1 or 2 args.
+macro ref1(a: rule_t) rule_t { choice(a, PEReference) }
+macro ref2(a: rule_t, b: rule_t) rule_t { choice(a, b, PEReference) }
+
+// rseq(...rules) = repeat(seq(...rules)), rseq1 likewise for repeat1.
+// Callers pass list literals.
+macro rseq(rules: list_t<rule_t>) rule_t { repeat(seq(for (r: rule_t) in rules { r })) }
+macro rseq1(rules: list_t<rule_t>) rule_t { repeat1(seq(for (r: rule_t) in rules { r })) }
+
+// Attribute value helpers: split per quote char since DSL has no string concat
+// to build `[^<&q]` regex dynamically.
+macro att_value_dq(reference: rule_t) rule_t {
+    seq("\"", field(content, repeat(choice(regexp(r#"[^<&"]"#), reference))), "\"")
+}
+macro att_value_sq(reference: rule_t) rule_t {
+    seq("'", field(content, repeat(choice(regexp(r"[^<&']"), reference))), "'")
+}
+
+macro entity_value_dq(pe_ref: rule_t, reference: rule_t) rule_t {
+    seq("\"", field(content, repeat(choice(regexp(r#"[^<%&"]"#), pe_ref, reference))), "\"")
+}
+macro entity_value_sq(pe_ref: rule_t, reference: rule_t) rule_t {
+    seq("'", field(content, repeat(choice(regexp(r"[^<%&']"), pe_ref, reference))), "'")
+}

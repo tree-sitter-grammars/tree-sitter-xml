@@ -1,0 +1,29 @@
+// DTD grammar for tree-sitter (native DSL).
+// Mirrors dtd/grammar.js. Shares rules with xml via ../common/common.tsg.
+
+let c = import("../common/common.tsg")
+
+grammar {
+    language: "dtd",
+    externals: [PITarget, _pi_content, Comment],
+    extras: [],
+    supertypes: [_markupdecl, _AttType, _EnumeratedType, _EntityDecl, _Reference],
+    conflicts: [[AttlistDecl, AttDef]],
+    word: Name,
+    start: extSubset,
+}
+
+rule PI { c::PI_(PITarget, _pi_content) }
+rule _markupdecl { c::markupdecl_(PI, Comment) }
+
+rule extSubset { seq(optional(TextDecl), repeat1(_extSubsetDecl)) }
+
+rule TextDecl { seq("<?", "xml", _VersionInfo, optional(_EncodingDecl), optional(_S), "?>") }
+
+rule _extSubsetDecl { choice(_markupdecl, conditionalSect, _DeclSep) }
+
+rule conditionalSect { seq(
+    "<![", optional(_S), c::ref2("IGNORE", "INCLUDE"), optional(_S), "[",
+    repeat(_extSubsetDecl),
+    "]]>",
+) }
